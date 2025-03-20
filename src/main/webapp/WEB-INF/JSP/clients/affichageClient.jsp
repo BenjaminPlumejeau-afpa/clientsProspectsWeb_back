@@ -102,7 +102,7 @@
           </section>
 
           <div class="align-self-center mt-4 mt-lg-auto mb-5">
-            <a href="selectionClient.html">
+            <a href="?cmd=choisirClient">
               <button type="button" class="btn btn-primary">Retour</button>
             </a>
           </div>

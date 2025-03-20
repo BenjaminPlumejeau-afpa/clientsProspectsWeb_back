@@ -42,15 +42,15 @@
               <div class="container-fluid mt-3">
                 <div class="d-md-flex justify-content-center">
                   <div class="text-center">
-                    <button type="submit" formaction="affichageClient.html" class="btn btn-primary m-2">Afficher
+                    <button type="submit" formaction="?cmd=afficherClient" class="btn btn-primary m-2">Afficher
                     </button>
                   </div>
                   <div class="text-center">
-                    <button type="submit" formaction="modificationClient.html" class="btn btn-primary m-2">Modifier
+                    <button type="submit" formaction="?cmd=modifierClient" class="btn btn-primary m-2">Modifier
                     </button>
                   </div>
                   <div class="text-center">
-                    <button type="submit" formaction="suppressionClient.html" class="btn btn-primary m-2">Supprimer
+                    <button type="submit" formaction="?cmd=supprimerClient" class="btn btn-primary m-2">Supprimer
                     </button>
                   </div>
                 </div>

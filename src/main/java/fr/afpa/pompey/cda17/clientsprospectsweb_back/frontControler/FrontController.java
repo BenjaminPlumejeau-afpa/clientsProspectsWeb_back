@@ -1,20 +1,22 @@
 package fr.afpa.pompey.cda17.clientsprospectsweb_back.frontControler;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
-import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.AffichageClientController;
-import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.AjoutClientController;
-import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.ListeClientController;
-import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.SelectionClientController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.*;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Routeur pour les pages de l'application
+ */
 @WebServlet(value = "/frontController")
 public class FrontController extends HttpServlet {
     private Map commands = new HashMap();
@@ -27,6 +29,8 @@ public class FrontController extends HttpServlet {
         commands.put("listerClient", new ListeClientController());
         commands.put("choisirClient", new SelectionClientController());
         commands.put("afficherClient", new AffichageClientController());
+        commands.put("modifierClient", new ModificationClientController());
+        commands.put("supprimerClient", new SuppressionClientController());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -41,6 +45,11 @@ public class FrontController extends HttpServlet {
     }
 
 
+    /**
+     * Effectue le routage en fonction de la commande associée
+     * @param request
+     * @param response
+     */
     public void processRequest(HttpServletRequest request, HttpServletResponse response) {
         String urlSuite = "";
 
