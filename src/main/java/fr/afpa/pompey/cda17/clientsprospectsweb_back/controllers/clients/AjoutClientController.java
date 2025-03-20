@@ -4,6 +4,9 @@ import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Controller de la page de création d'un client
+ */
 public class AjoutClientController implements ICommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
