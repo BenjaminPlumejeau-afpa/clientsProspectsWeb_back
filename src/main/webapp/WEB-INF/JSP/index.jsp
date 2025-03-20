@@ -1,12 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@include file="/WEB-INF/JSP/components/taglibs.jsp" %>
+
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%@include file="/WEB-INF/JSP/components/commonHead.jsp"%>
   <title>Gestion Clients/Prospects</title>
-  <%@include file="/WEB-INF/JSP/components/commonStyles.jsp"%>
-  <link rel="stylesheet" href="/webapp/assets/css/index.css">
 </head>
 
 <body>

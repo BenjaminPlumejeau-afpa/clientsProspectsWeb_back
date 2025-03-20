@@ -1,16 +1,25 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: CDA-07
-  Date: 18/03/2025
-  Time: 15:21
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page pageEncoding="UTF-8" %>
+<%@include file="/WEB-INF/JSP/components/taglibs.jsp" %>
+
+<!doctype html>
+<html lang="fr">
 <head>
+  <%@include file="/WEB-INF/JSP/components/commonHead.jsp"%>
   <title>Erreur</title>
 </head>
+
 <body>
-Erreur placeholder
+
+<%@include file="/WEB-INF/JSP/components/header.jsp"%>
+
+<main>
+  <article class="container-fluid">
+    <h2 class="mx-auto">Erreur - Cette page est introuvable ou innaccessible</h2>
+  </article>
+</main>
+
+<%@include file="/WEB-INF/JSP/components/footer.jsp"%>
+
 </body>
+
 </html>

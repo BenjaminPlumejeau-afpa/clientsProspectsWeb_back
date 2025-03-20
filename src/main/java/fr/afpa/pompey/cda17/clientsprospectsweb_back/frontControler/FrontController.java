@@ -7,6 +7,10 @@ import java.util.logging.Logger;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.AffichageClientController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.AjoutClientController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.ListeClientController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.SelectionClientController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -19,6 +23,10 @@ public class FrontController extends HttpServlet {
     public void init() {
         commands.put(null, new PageAccueilController());
         commands.put("accueil", new PageAccueilController());
+        commands.put("ajouterClient", new AjoutClientController());
+        commands.put("listerClient", new ListeClientController());
+        commands.put("choisirClient", new SelectionClientController());
+        commands.put("afficherClient", new AffichageClientController());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {

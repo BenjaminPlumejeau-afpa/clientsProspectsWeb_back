@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 
 <div class="container text-center">
   <h1>Gestion des clients et prospects</h1>
@@ -14,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active currentPage" aria-current="page" href="#">Accueil</a>
+          <a class="nav-link active currentPage" aria-current="page" href="?cmd=accueil">Accueil</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -22,12 +23,12 @@
             Gestion des clients
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="client/listeClients.html">Liste des clients</a></li>
+            <li><a class="dropdown-item" href="?cmd=listerClient">Liste des clients</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="client/ajoutClient.html">Saisir un client</a></li>
-            <li><a class="dropdown-item" href="client/selectionClient.html">Afficher/Modifier/Supprimer</a></li>
+            <li><a class="dropdown-item" href="?cmd=ajouterClient">Saisir un client</a></li>
+            <li><a class="dropdown-item" href="?cmd=choisirClient">Afficher/Modifier/Supprimer</a></li>
           </ul>
 
         <li class="nav-item dropdown">
@@ -35,17 +36,17 @@
             Gestion des prospects
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="prospect/listeProspects.html">Liste des prospects</a></li>
+            <li><a class="dropdown-item" href="?cmd=listerProspect">Liste des prospects</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="prospect/ajoutProspect.html">Saisir un prospect</a></li>
-            <li><a class="dropdown-item" href="prospect/selectionProspect.html">Afficher/Modifier/Supprimer</a></li>
+            <li><a class="dropdown-item" href="?cmd=ajouterProspect">Saisir un prospect</a></li>
+            <li><a class="dropdown-item" href="?cmd=choisirProspect">Afficher/Modifier/Supprimer</a></li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link active" href="contact/contact.html">Contact</a>
+          <a class="nav-link active" href="?cmd=contacter">Contact</a>
         </li>
 
         <li class="nav-item dropdown menuConnexion">
@@ -53,11 +54,11 @@
             Connexion
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="connexion/connexion.html">Se connecter</a></li>
+            <li><a class="dropdown-item" href="?cmd=connecter">Se connecter</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="index.html">Se déconnecter</a></li>
+            <li><a class="dropdown-item" href="?cmd=deconnecter">Se déconnecter</a></li>
           </ul>
         </li>
 
