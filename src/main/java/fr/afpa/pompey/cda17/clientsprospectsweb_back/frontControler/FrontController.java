@@ -15,13 +15,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Routeur pour les pages de l'application
+ * Routeur pour les pages de l'application.
  */
 @WebServlet(value = "/frontController")
 public class FrontController extends HttpServlet {
     private Map commands = new HashMap();
     private final Logger LOGGER = Logger.getLogger(FrontController.class.getName());
 
+    /**
+     * Initialise la collection des commandes de routage.
+     */
     public void init() {
         commands.put(null, new PageAccueilController());
         commands.put("accueil", new PageAccueilController());
@@ -46,11 +49,12 @@ public class FrontController extends HttpServlet {
 
 
     /**
-     * Effectue le routage en fonction de la commande associée
+     * Effectue le routage en fonction de la commande associée.
+     *
      * @param request
      * @param response
      */
-    public void processRequest(HttpServletRequest request, HttpServletResponse response) {
+    public void processRequest(final HttpServletRequest request, final HttpServletResponse response) {
         String urlSuite = "";
 
         try {

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Classe héritant de Societe représentant une société cliente
+ * Classe héritant de Societe représentant une société cliente.
  */
 public class Client extends Societe {
 
@@ -20,7 +20,7 @@ public class Client extends Societe {
 
     /**
      * Constructeur d'insertion ; instancie un client à insérer dans la base de données n'ayant donc pas encore
-     * d'identifiant
+     * d'identifiant.
      *
      * @param raisonSociale   String
      * @param telephone       String
@@ -38,7 +38,7 @@ public class Client extends Societe {
     }
 
     /**
-     * Constructeur de chargement ; instancie un client chargé depuis la base de données, incluant son identifiant
+     * Constructeur de chargement ; instancie un client chargé depuis la base de données, incluant son identifiant.
      *
      * @param identifiant     int
      * @param raisonSociale   String
@@ -57,7 +57,7 @@ public class Client extends Societe {
     }
 
     /**
-     * Constructeur implicite
+     * Constructeur implicite.
      */
     public Client() {
         super();

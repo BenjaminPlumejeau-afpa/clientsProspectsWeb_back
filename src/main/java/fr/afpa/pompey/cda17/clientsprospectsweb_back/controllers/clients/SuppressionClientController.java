@@ -5,11 +5,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Controller de la page de suppression d'un client
+ * Controller de la page de suppression d'un client.
  */
 public class SuppressionClientController implements ICommand {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String execute(final HttpServletRequest request, final HttpServletResponse response)
+            throws Exception {
         return "WEB-INF/JSP/clients/ajoutClient.jsp";
     }
 }
