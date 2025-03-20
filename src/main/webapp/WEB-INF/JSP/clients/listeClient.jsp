@@ -4,13 +4,13 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <%@include file="/WEB-INF/JSP/components/commonHead.jsp"%>
+  <%@include file="/WEB-INF/JSP/components/commonHead.jsp" %>
   <title>Liste Clients</title>
 </head>
 
 <body>
 
-<%@include file="/WEB-INF/JSP/components/header.jsp"%>
+<%@include file="/WEB-INF/JSP/components/header.jsp" %>
 
 <main>
   <article>
@@ -36,7 +36,29 @@
             </thead>
             <tbody id="tableBody">
 
-            <!-- Contenu généré par le javascript -->
+            <!-- Affichage des clients -->
+            <c:choose>
+              <c:when test="${empty listeClients}">
+                <p>Aucun client à afficher</p>
+              </c:when>
+              <c:otherwise>
+                <c:forEach var="client" begin="0" items="${listeClients}">
+                  <tr>
+                    <td><c:out value="${client.identifiant}"/></td>
+                    <td><c:out value="${client.raisonSociale}"/></td>
+                      <%--                <td><c:out value="${client.adresse.numRue}"/></td>--%>
+                      <%--                <td><c:out value="${client.adresse.nomRue}"/></td>--%>
+                      <%--                <td><c:out value="${client.adresse.codePostal}"/></td>--%>
+                      <%--                <td><c:out value="${client.adresse.ville}"/></td>--%>
+                    <td><c:out value="${client.telephone}"/></td>
+                    <td><c:out value="${client.mail}"/></td>
+                    <td><c:out value="${client.chiffreDAffaire}"/></td>
+                    <td><c:out value="${client.nombreEmployes}"/></td>
+                  </tr>
+                </c:forEach>
+              </c:otherwise>
+            </c:choose>
+
 
             </tbody>
           </table>
@@ -48,7 +70,7 @@
   </article>
 </main>
 
-<%@include file="/WEB-INF/JSP/components/footer.jsp"%>
+<%@include file="/WEB-INF/JSP/components/footer.jsp" %>
 
 <script src="../assets/js/client/listeClients.js"></script>
 </body>

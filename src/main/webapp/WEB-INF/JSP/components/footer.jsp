@@ -2,7 +2,7 @@
 
 <footer class="container-fluid py-2 d-flex justify-content-center">
   <a class="px-4" href="?cmd=accueil">Accueil</a>
-  <a class="px-4" href="?cmd=deconnecter">Nous contacter</a>
+  <a class="px-4" href="?cmd=contacter">Nous contacter</a>
 </footer>
 
 <!-- Script BootStrap -->
