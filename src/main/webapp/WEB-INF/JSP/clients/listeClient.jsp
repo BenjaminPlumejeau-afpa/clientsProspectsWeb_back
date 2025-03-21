@@ -19,49 +19,48 @@
     <div class="container text-center">
       <div class="card mt-4 p-2">
         <div class="table-responsive">
-          <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-              <th scope="col">Identifiant</th>
-              <th scope="col">Raison sociale</th>
-              <th scope="col">N°</th>
-              <th scope="col">Rue</th>
-              <th scope="col">Code postal</th>
-              <th scope="col">Ville</th>
-              <th scope="col">Téléphone</th>
-              <th scope="col">Mail</th>
-              <th scope="col">Chiffre d'affaires</th>
-              <th scope="col">Employés</th>
-            </tr>
-            </thead>
-            <tbody id="tableBody">
 
-            <!-- Affichage des clients -->
-            <c:choose>
-              <c:when test="${empty listeClients}">
-                <p>Aucun client à afficher</p>
-              </c:when>
-              <c:otherwise>
+          <!-- Affichage des clients -->
+          <c:choose>
+            <c:when test="${empty listeClients}">
+              <p>Aucun client à afficher</p>
+            </c:when>
+            <c:otherwise>
+              <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                  <th scope="col">Identifiant</th>
+                  <th scope="col">Raison sociale</th>
+                  <th scope="col">N°</th>
+                  <th scope="col">Rue</th>
+                  <th scope="col">Code postal</th>
+                  <th scope="col">Ville</th>
+                  <th scope="col">Téléphone</th>
+                  <th scope="col">Mail</th>
+                  <th scope="col">Chiffre d'affaires</th>
+                  <th scope="col">Employés</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
                 <c:forEach var="client" begin="0" items="${listeClients}">
                   <tr>
-                    <td><c:out value="${client.identifiant}"/></td>
-                    <td><c:out value="${client.raisonSociale}"/></td>
-                      <%--                <td><c:out value="${client.adresse.numRue}"/></td>--%>
-                      <%--                <td><c:out value="${client.adresse.nomRue}"/></td>--%>
-                      <%--                <td><c:out value="${client.adresse.codePostal}"/></td>--%>
-                      <%--                <td><c:out value="${client.adresse.ville}"/></td>--%>
-                    <td><c:out value="${client.telephone}"/></td>
-                    <td><c:out value="${client.mail}"/></td>
-                    <td><c:out value="${client.chiffreDAffaire}"/></td>
-                    <td><c:out value="${client.nombreEmployes}"/></td>
+                    <td><c:out value="${client.getIdentifiant()}"/></td>
+                    <td><c:out value="${client.getRaisonSociale()}"/></td>
+                    <td><c:out value="${client.getAdresse().getNumeroRue()}"/></td>
+                    <td><c:out value="${client.getAdresse().getNomRue()}"/></td>
+                    <td><c:out value="${client.getAdresse().getCodePostal()}"/></td>
+                    <td><c:out value="${client.getAdresse().getVille()}"/></td>
+                    <td><c:out value="${client.getTelephone()}"/></td>
+                    <td><c:out value="${client.getMail()}"/></td>
+                    <td><c:out value="${client.getChiffreDAffaire()}"/></td>
+                    <td><c:out value="${client.getNombreEmployes()}"/></td>
                   </tr>
                 </c:forEach>
-              </c:otherwise>
-            </c:choose>
 
-
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </c:otherwise>
+          </c:choose>
         </div>
 
       </div>
