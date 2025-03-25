@@ -8,19 +8,24 @@ import jakarta.validation.constraints.NotNull;
  */
 public class Client extends Societe {
 
-
+    /**
+     * Chiffre d'affaires du client.
+     */
     @NotNull
     @Min(201)
     private long chiffreDAffaire;
 
+    /**
+     * Nombre d'employés du client.
+     */
     @NotNull
     @Min(1)
     private int nombreEmployes;
 
 
     /**
-     * Constructeur d'insertion ; instancie un client à insérer dans la base de données n'ayant donc pas encore
-     * d'identifiant.
+     * Constructeur d'insertion ; instancie un client à insérer dans la
+     * base de données n'ayant donc pas encore d'identifiant.
      *
      * @param raisonSociale   String
      * @param telephone       String
@@ -38,7 +43,8 @@ public class Client extends Societe {
     }
 
     /**
-     * Constructeur de chargement ; instancie un client chargé depuis la base de données, incluant son identifiant.
+     * Constructeur de chargement ; instancie un client chargé depuis la
+     * base de données, incluant son identifiant.
      *
      * @param identifiant     int
      * @param raisonSociale   String

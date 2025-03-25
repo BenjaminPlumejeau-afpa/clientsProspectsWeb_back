@@ -1,32 +1,45 @@
 package fr.afpa.pompey.cda17.clientsprospectsweb_back.models;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
 
 /**
- * Classe représentant une adresse physique
+ * Classe représentant une adresse physique.
  */
 public class Adresse {
 
+    /**
+     * Identifiant de l'adresse.
+     */
     private Integer idAdresse;
 
+    /**
+     * Numéro dans la rue.
+     */
     @NotBlank
     private String numeroRue;
 
+    /**
+     * Nom de la rue de l'adresse.
+     */
     @NotBlank
     private String nomRue;
 
+    /**
+     * Code postal de l'adresse.
+     */
     @Pattern(regexp = "^[0-9]{5}$")
     private String codePostal;
 
+    /**
+     * Ville de l'adresse.
+     */
     @NotBlank
     private String ville;
 
     /**
-     * Constructeur d'insertion ; instancie une adresse à insérer dans la base de données n'ayant donc pas encore
-     * d'identifiant
+     * Constructeur d'insertion ; instancie une adresse à insérer dans la base de
+     * données n'ayant donc pas encore d'identifiant.
      *
      * @param numeroRue  String
      * @param nomRue     String
@@ -41,7 +54,8 @@ public class Adresse {
     }
 
     /**
-     * Constructeur de chargement ; instancie une adresse chargée depuis la base de données, incluant son identifiant
+     * Constructeur de chargement ; instancie une adresse chargée depuis
+     * la base de données, incluant son identifiant.
      *
      * @param idAdresse  Integer
      * @param numeroRue  String
@@ -58,7 +72,7 @@ public class Adresse {
     }
 
     /**
-     * Constructeur implicite
+     * Constructeur implicite.
      */
     public Adresse() {
         this.numeroRue = "";
@@ -105,6 +119,7 @@ public class Adresse {
 
     @Override
     public String toString() {
-        return this.numeroRue + " " + this.nomRue + ", " + this.codePostal + " " + this.ville;
+        return this.numeroRue + " " + this.nomRue
+            + ", " + this.codePostal + " " + this.ville;
     }
 }

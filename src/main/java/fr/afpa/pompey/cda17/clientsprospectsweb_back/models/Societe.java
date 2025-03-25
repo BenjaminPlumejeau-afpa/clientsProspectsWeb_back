@@ -4,34 +4,51 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
 
 /**
- * Classe abstraite représentant une société
+ * Classe abstraite représentant une société.
  */
 public abstract class Societe {
 
+    /**
+     * Identifiant de la société.
+     */
     private Integer identifiant;
 
+    /**
+     * Raison sociale de la société.
+     */
     @NotBlank
     private String raisonSociale;
 
+    /**
+     * Numéro de téléphone de la société.
+     */
     @Pattern(regexp = "^(0|([+]|00)[0-9]{2,3})[0-9]{9}$")
     private String telephone;
 
+    /**
+     * Adresse physique de la société.
+     */
     @Valid
     private Adresse adresse;
 
+    /**
+     * Adresse mail de la société.
+     */
     @Pattern(regexp = "^([^ @.-]([.-][^ @.-])?)+@([^ @.-]([.-][^ @.-])?)+[.][a-zA-Z]+$")
     private String mail;
 
+    /**
+     * Commentaire sur la société.
+     */
     @NotNull
     private String commentaire;
 
 
     /**
-     * Constructeur d'insertion ; instancie une société à insérer dans la base de données n'ayant donc pas encore
-     * d'identifiant
+     * Constructeur d'insertion ; instancie une société à insérer dans la
+     * base de données n'ayant donc pas encore d'identifiant.
      *
      * @param raisonSociale String
      * @param telephone     String
@@ -49,7 +66,8 @@ public abstract class Societe {
     }
 
     /**
-     * Constructeur de chargement ; instancie une société chargée depuis la base de données, incluant son identifiant
+     * Constructeur de chargement ; instancie une société chargée depuis
+     * la base de données, incluant son identifiant.
      *
      * @param identifiant   int
      * @param raisonSociale String
@@ -69,7 +87,7 @@ public abstract class Societe {
     }
 
     /**
-     * Constructeur implicite
+     * Constructeur implicite.
      */
     public Societe() {
         // l'identifiant est initialisé dans le contructeur de la classe fille
@@ -127,7 +145,8 @@ public abstract class Societe {
 
     @Override
     public String toString() {
-        // On ne retourne ici que la raison sociale pour avoir un affichage propre dans une comboBox
+        // On ne retourne ici que la raison sociale
+        // pour avoir un affichage propre dans une comboBox
         return this.raisonSociale;
     }
 }
