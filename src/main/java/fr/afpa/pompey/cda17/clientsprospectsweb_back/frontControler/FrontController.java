@@ -34,6 +34,7 @@ public class FrontController extends HttpServlet {
         commands.put("afficherClient", new AffichageClientController());
         commands.put("modifierClient", new ModificationClientController());
         commands.put("supprimerClient", new SuppressionClientController());
+        commands.put("submitAjouterClient", new AjoutClientController());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {

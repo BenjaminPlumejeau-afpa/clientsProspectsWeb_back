@@ -10,8 +10,6 @@ import jakarta.validation.constraints.Positive;
  */
 public class Adresse {
 
-    @NotNull
-    @Positive
     private Integer idAdresse;
 
     @NotBlank

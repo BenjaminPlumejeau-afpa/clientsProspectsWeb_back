@@ -11,9 +11,6 @@ import jakarta.validation.constraints.Positive;
  */
 public abstract class Societe {
 
-
-    @NotNull
-    @Positive
     private Integer identifiant;
 
     @NotBlank

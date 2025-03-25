@@ -36,13 +36,13 @@ public class ListeClientController implements ICommand {
     private ArrayList<Client> chargerClients() {
         ArrayList<Client> clients = new ArrayList<>();
 
-        // TEMP - Création d'un jeu d'essai
+        //TODO TEMP - Création d'un jeu d'essai - A remplacer par Datasource
         clients.add(new Client(1, "Google", "0102030405",
             new Adresse("24", "rue Pierre", "54000", "Nancy"),
             "google@google.com", "", 17500, 2200));
         clients.add(new Client(3, "Amazon", "0102030405",
             new Adresse("35", "rue Paul", "54000", "Nancy"),
-            "amazon@amazon.com", "Bleh", 12500, 3000));
+            "amazon@amazon.com", "Mauvais payeur", 12500, 3000));
         clients.add(new Client(5, "Microsoft", "0102030405",
             new Adresse("666", "rue Jacques", "54000", "Nancy"),
             "microsoft@microsoft.com", "", 25000, 200));
