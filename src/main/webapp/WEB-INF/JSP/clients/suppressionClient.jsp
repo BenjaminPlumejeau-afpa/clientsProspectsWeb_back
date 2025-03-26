@@ -130,7 +130,7 @@
 
 <%@include file="/WEB-INF/JSP/components/footer.jsp" %>
 
-<%--<script src="assets/js/client/suppressionClient.js"></script>--%>
+<%--<script src="/assets/js/clients/suppressionClient.js"></script>--%>
 
 </body>
 

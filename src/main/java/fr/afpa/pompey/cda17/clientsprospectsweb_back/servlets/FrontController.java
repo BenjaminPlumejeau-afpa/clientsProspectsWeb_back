@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.*;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.connexion.ConnexionController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.contact.ContactController;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,6 +42,8 @@ public class FrontController extends HttpServlet {
     public void init() throws ServletException {
         commands.put(null, new PageAccueilController());
         commands.put("accueil", new PageAccueilController());
+        commands.put("contacter", new ContactController());
+        commands.put("connecter", new ConnexionController());
         commands.put("ajouterClient", new AjoutClientController());
         commands.put("listerClient", new ListeClientController());
         commands.put("choisirClient", new SelectionClientController());
@@ -51,7 +55,6 @@ public class FrontController extends HttpServlet {
         // Ouverture de la connexion à la base de données
         try {
             connection = dataSource.getConnection();
-            LOGGER.info("\n    ==== CONNECTION OK ====");
         } catch (SQLException sqle) {
             throw new ServletException("Problème d'ouverture de connection à la base de données", sqle);
         }
@@ -68,7 +71,6 @@ public class FrontController extends HttpServlet {
     public void destroy() {
         try {
             connection.close();
-            LOGGER.info("\n    ==== FERMETURE OK ====");
         } catch (SQLException sqle) {
             LOGGER.warning("Problème de fermeture de connection à la base de données" + sqle.getMessage());
         }

@@ -12,6 +12,6 @@ public class ModificationClientController implements ICommand {
     @Override
     public String execute(final HttpServletRequest request, final HttpServletResponse response)
             throws Exception {
-        return "WEB-INF/JSP/clients/ajoutClient.jsp";
+        return "WEB-INF/JSP/clients/modificattionClient.jsp";
     }
 }

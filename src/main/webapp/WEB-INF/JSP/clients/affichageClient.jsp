@@ -119,7 +119,8 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
-<script type="module" src="assets/js/client/affichageClient.js"></script>
+
+<%--<script type="module" src="/assets/js/clients/affichageClient.js"></script>--%>
 </body>
 
 </html>

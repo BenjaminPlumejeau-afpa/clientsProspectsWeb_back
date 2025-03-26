@@ -4,13 +4,14 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <%@include file="/WEB-INF/JSP/components/commonHead.jsp"%>
+  <%@include file="/WEB-INF/JSP/components/commonHead.jsp" %>
+  <link rel="stylesheet" href="assets/css/index.css">
   <title>Gestion Clients/Prospects</title>
 </head>
 
 <body>
 
-<%@include file="/WEB-INF/JSP/components/header.jsp"%>
+<%@include file="/WEB-INF/JSP/components/header.jsp" %>
 
 <main>
   <article>
@@ -27,7 +28,7 @@
 
       <div class="row">
         <div class="col mt-md-5 py-3">
-          <a class="btn btn-primary btn-lg" href="connexion/connexion.html">Se connecter</a>
+          <a class="btn btn-primary btn-lg" href="?cmd=connecter">Se connecter</a>
         </div>
       </div>
 
@@ -35,7 +36,7 @@
   </article>
 </main>
 
-<%@include file="/WEB-INF/JSP/components/footer.jsp"%>
+<%@include file="/WEB-INF/JSP/components/footer.jsp" %>
 
 </body>
 

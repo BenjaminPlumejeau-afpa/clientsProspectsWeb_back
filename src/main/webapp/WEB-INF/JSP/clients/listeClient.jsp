@@ -70,8 +70,6 @@
 </main>
 
 <%@include file="/WEB-INF/JSP/components/footer.jsp" %>
-
-<script src="../assets/js/client/listeClients.js"></script>
 </body>
 
 </html>
