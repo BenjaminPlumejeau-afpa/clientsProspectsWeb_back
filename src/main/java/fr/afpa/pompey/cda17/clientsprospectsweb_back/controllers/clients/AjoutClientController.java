@@ -50,7 +50,6 @@ public class AjoutClientController implements ICommand {
                     ),
                     request.getParameter("mail"),
                     request.getParameter("commentaire"),
-                    //TODO   V V V V    RENVOIE UNE EXCEPTION QUAND LE CHAMP EST NUL - A GERER    V V V V
                     Integer.parseInt(request.getParameter("chiffreAffaires")),
                     Integer.parseInt(request.getParameter("nbEmployes"))
                 );

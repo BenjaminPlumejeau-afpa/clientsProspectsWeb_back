@@ -128,7 +128,7 @@
 
 <%@include file="/WEB-INF/JSP/components/footer.jsp"%>
 
-<script src="assets/js/client/modificationClient.js"></script>
+<%--<script src="assets/js/client/modificationClient.js"></script>--%>
 
 </body>
 
