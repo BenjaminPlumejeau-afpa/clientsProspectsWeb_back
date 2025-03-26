@@ -23,33 +23,20 @@ public class ListeClientController implements ICommand {
     public String execute(final HttpServletRequest request, final HttpServletResponse response)
         throws Exception {
 
+        // Instanciation de la DAO
+        AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
+        DAO<Client> clientDAO = factory.getClient();
+
         // Récupération des clients
-        ArrayList<Client> listeClients = chargerClients();
-
-        // Test du passage d'une liste vide
-//        request.setAttribute("listeClients", new ArrayList<Client>());
-
-        request.setAttribute("listeClients", listeClients);
-
-        return "WEB-INF/JSP/clients/listeClient.jsp";
-    }
-
-    /**
-     * Méthode renvoyant une ArrayList contenant tous les clients à afficher.
-     *
-     * @return ArrayList : collection des clients
-     */
-    private ArrayList<Client> chargerClients() {
         ArrayList<Client> clients = new ArrayList<>();
-
         try {
-            AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
-            DAO<Client> clientDAO = factory.getClient();
             clients = clientDAO.findAll();
         } catch (DAOException daoe) {
             LOGGER.severe(daoe.getMessage());
         }
 
-        return clients;
+        request.setAttribute("listeClients", clients);
+
+        return "WEB-INF/JSP/clients/listeClient.jsp";
     }
 }

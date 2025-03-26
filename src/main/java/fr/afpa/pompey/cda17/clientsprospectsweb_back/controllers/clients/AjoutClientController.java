@@ -1,7 +1,6 @@
 package fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
-import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.AbstractDAOFactory;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAO;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
@@ -69,9 +68,9 @@ public class AjoutClientController implements ICommand {
                 String validation = validationClient(client);
                 if (validation.isEmpty()) {
                     // Si la saisie ne contient aucune erreur, elle est enregistrée dans la base de données et on
-                    // affiche la page d'accueil
+                    // affiche la page de sélection de client.
                     clientDAO.save(client);
-                    return new PageAccueilController().execute(request, response);
+                    return new SelectionClientController().execute(request, response);
                 } else {
                     // Si les saisies ne sont pas valides, on affiche les corrections à effectuer
                     request.setAttribute("validationClient", validation);
@@ -81,7 +80,6 @@ public class AjoutClientController implements ICommand {
                 request.setAttribute("validationClient", "Le chiffre d'affaires et le nombre d'employés doivent" +
                     " être saisis et doivent être des nombres entiers et positifs");
             } catch (DAOException daoe) {
-                LOGGER.severe(daoe.getMessage());
                 request.setAttribute("validationClient", daoe.getMessage());
             }
 

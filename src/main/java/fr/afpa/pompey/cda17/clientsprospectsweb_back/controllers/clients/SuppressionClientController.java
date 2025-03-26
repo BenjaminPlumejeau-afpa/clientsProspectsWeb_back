@@ -1,7 +1,6 @@
 package fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
-import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.AbstractDAOFactory;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAO;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
@@ -45,9 +44,9 @@ public class SuppressionClientController implements ICommand {
                     return "WEB-INF/JSP/erreur.jsp";
                 }
 
-                // On supprime le client et on renvoie vers la page d'accueil
+                // On supprime le client et on renvoie vers la page de sélection de client.
                 clientDAO.delete(client);
-                return new PageAccueilController().execute(request, response);
+                return new SelectionClientController().execute(request, response);
 
             } catch (NumberFormatException | DAOException e) {
                 LOGGER.severe(e.getMessage());
