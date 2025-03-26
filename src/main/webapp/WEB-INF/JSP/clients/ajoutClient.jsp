@@ -134,7 +134,7 @@
 
 <%@include file="/WEB-INF/JSP/components/footer.jsp" %>
 
-<script src="assets/js/client/ajoutClient.js"></script>
+<%--<script src="assets/js/client/ajoutClient.js"></script>--%>
 </body>
 
 </html>

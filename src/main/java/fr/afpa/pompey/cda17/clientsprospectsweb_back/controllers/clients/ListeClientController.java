@@ -1,17 +1,23 @@
 package fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
-import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Adresse;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.AbstractDAOFactory;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAO;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.TypeDB;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Controller de la page d'affichage de la liste des clients.
  */
 public class ListeClientController implements ICommand {
+
+    private final Logger LOGGER = Logger.getLogger(ListeClientController.class.getName());
 
     @Override
     public String execute(final HttpServletRequest request, final HttpServletResponse response)
@@ -36,16 +42,13 @@ public class ListeClientController implements ICommand {
     private ArrayList<Client> chargerClients() {
         ArrayList<Client> clients = new ArrayList<>();
 
-        //TODO TEMP - Création d'un jeu d'essai - A remplacer par Datasource
-        clients.add(new Client(1, "Google", "0102030405",
-            new Adresse("24", "rue Pierre", "54000", "Nancy"),
-            "google@google.com", "", 17500, 2200));
-        clients.add(new Client(3, "Amazon", "0102030405",
-            new Adresse("35", "rue Paul", "54000", "Nancy"),
-            "amazon@amazon.com", "Mauvais payeur", 12500, 3000));
-        clients.add(new Client(5, "Microsoft", "0102030405",
-            new Adresse("666", "rue Jacques", "54000", "Nancy"),
-            "microsoft@microsoft.com", "", 25000, 200));
+        try {
+            AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
+            DAO<Client> clientDAO = factory.getClient();
+            clients = clientDAO.findAll();
+        } catch (DAOException daoe) {
+            LOGGER.severe(daoe.getMessage());
+        }
 
         return clients;
     }

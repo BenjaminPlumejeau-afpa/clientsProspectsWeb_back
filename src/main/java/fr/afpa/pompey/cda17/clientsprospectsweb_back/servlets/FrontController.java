@@ -28,14 +28,16 @@ public class FrontController extends HttpServlet {
     private final Logger LOGGER = Logger.getLogger(FrontController.class.getName());
 
     @Resource(name = "jdbc/mysql")
-    public static DataSource dataSource;
-    public Connection connection;
+    private static DataSource dataSource;
+    public static Connection connection;
 
 
     /**
      * Initialise la collection des commandes de routage.
+     *
+     * @throws ServletException
      */
-    public void init() {
+    public void init() throws ServletException {
         commands.put(null, new PageAccueilController());
         commands.put("accueil", new PageAccueilController());
         commands.put("ajouterClient", new AjoutClientController());
@@ -51,10 +53,7 @@ public class FrontController extends HttpServlet {
             connection = dataSource.getConnection();
             LOGGER.info("\n    ==== CONNECTION OK ====");
         } catch (SQLException sqle) {
-            //TODO Gestion de l'exception - ServletException ?
-//            throw new ServletException("Problème d'ouverture de connection à la base de données", sqle);
-            LOGGER.warning("\n    SQLException : " + sqle.getMessage());
-            LOGGER.info("\n    ==== CONNECTION ECHEC ====");
+            throw new ServletException("Problème d'ouverture de connection à la base de données", sqle);
         }
     }
 
@@ -71,10 +70,7 @@ public class FrontController extends HttpServlet {
             connection.close();
             LOGGER.info("\n    ==== FERMETURE OK ====");
         } catch (SQLException sqle) {
-            //TODO Gestion de l'exception - ServletException ?
-//            throw new ServletException("Problème de fermeture de connection à la base de données", sqle);
-            LOGGER.warning("\n    SQLException : " + sqle.getMessage());
-            LOGGER.info("\n    ==== FERMETURE ECHEC ====");
+            LOGGER.warning("Problème de fermeture de connection à la base de données" + sqle.getMessage());
         }
     }
 
