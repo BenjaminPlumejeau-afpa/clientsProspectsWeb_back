@@ -44,14 +44,15 @@ public class FrontController extends HttpServlet {
         commands.put("accueil", new PageAccueilController());
         commands.put("contacter", new ContactController());
         commands.put("connecter", new ConnexionController());
-        commands.put("ajouterClient", new AjoutClientController());
         commands.put("listerClient", new ListeClientController());
         commands.put("choisirClient", new SelectionClientController());
         commands.put("afficherClient", new AffichageClientController());
+        commands.put("ajouterClient", new AjoutClientController());
         commands.put("modifierClient", new ModificationClientController());
         commands.put("supprimerClient", new SuppressionClientController());
         commands.put("submitAjouterClient", new AjoutClientController());
         commands.put("submitModifierClient", new ModificationClientController());
+        commands.put("sbmitSupprimerClient", new SuppressionClientController());
 
         // Ouverture de la connexion à la base de données
         try {
