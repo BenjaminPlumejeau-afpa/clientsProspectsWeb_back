@@ -51,6 +51,7 @@ public class FrontController extends HttpServlet {
         commands.put("modifierClient", new ModificationClientController());
         commands.put("supprimerClient", new SuppressionClientController());
         commands.put("submitAjouterClient", new AjoutClientController());
+        commands.put("submitModifierClient", new ModificationClientController());
 
         // Ouverture de la connexion à la base de données
         try {

@@ -17,6 +17,13 @@
     <form action="?cmd=submitModifierClient" method="post">
       <h2>Modifier un client</h2>
 
+      <%-- Affichage des erreurs de saisie --%>
+      <c:if test="${!empty validationClient}">
+        <div class="alert alert-danger mt-1" role="alert">
+            ${validationClient}
+        </div>
+      </c:if>
+
       <div class="row">
         <div class="col-lg-1"></div>
 

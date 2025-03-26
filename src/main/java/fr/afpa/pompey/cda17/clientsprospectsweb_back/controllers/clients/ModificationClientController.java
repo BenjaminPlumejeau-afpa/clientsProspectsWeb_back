@@ -28,9 +28,12 @@ public class ModificationClientController implements ICommand {
     @Override
     public String execute(final HttpServletRequest request, final HttpServletResponse response)
         throws Exception {
+        // Instanciation de la DAO
+        AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
+        DAO<Client> clientDAO = factory.getClient();
 
-        // Si on reçoit un formulaire à traiter, on valide la saisie et on enregistre les changements s'il n'y a
-        // pas d'erreur ; sinon on charge les informations depuis la base de données
+        // Si on reçoit un formulaire à traiter, on valide la saisie et on enregistre les changements
+        // s'il n'y a pas d'erreur
         if (request.getParameter("cmd").equals("submitModifierClient")) {
 
             // On valorise les attributs pour afficher les paramètres dans les champs
@@ -47,29 +50,33 @@ public class ModificationClientController implements ICommand {
             request.setAttribute("ville", request.getParameter("ville"));
 
             try {
-                // Instanciation d'un client après réception du formulaire
-                Client client = new Client(
-                    request.getParameter("raisonSociale"),
-                    request.getParameter("telephone"),
-                    new Adresse(
-                        request.getParameter("numRue"),
-                        request.getParameter("nomRue"),
-                        request.getParameter("codePostal"),
-                        request.getParameter("ville")
-                    ),
-                    request.getParameter("mail"),
-                    request.getParameter("commentaire"),
-                    Integer.parseInt(request.getParameter("chiffreAffaires")),
-                    Integer.parseInt(request.getParameter("nbEmployes"))
-                );
+                // On charge le client depuis la base de données à partir de son identifiant
+                Client client = clientDAO.findById(Integer.parseInt(request.getParameter("identifiant")));
 
-                // vérification des données saisies
+                // Si le client est null il n'existe pas et on renvoie une erreur
+                if (client == null) {
+                    LOGGER.severe("Tentative de chargement d'un client inexistant - "
+                        + ModificationClientController.class.getName());
+                    return "WEB-INF/JSP/erreur.jsp";
+                }
+                // On utilise les setters pour valoriser les attributs du client
+                client.setRaisonSociale(request.getParameter("raisonSociale").trim());
+                client.setTelephone(request.getParameter("telephone").trim());
+                client.setMail(request.getParameter("mail").trim());
+                client.setCommentaire(request.getParameter("commentaire").trim());
+                client.setChiffreDAffaire(Integer.parseInt(request.getParameter("chiffreAffaires").trim()));
+                client.setNombreEmployes(Integer.parseInt(request.getParameter("nbEmployes").trim()));
+                client.getAdresse().setNumeroRue(request.getParameter("numRue").trim());
+                client.getAdresse().setNomRue(request.getParameter("nomRue").trim());
+                client.getAdresse().setCodePostal(request.getParameter("codePostal").trim());
+                client.getAdresse().setVille(request.getParameter("ville").trim());
+
+                // On vérifié que le client est valide
                 String validation = validationClient(client);
-
                 if (validation.isEmpty()) {
                     // Si la saisie ne contient aucune erreur, elle est enregistrée dans la base de données et on
                     // affiche la page d'accueil
-//TODO                --- ENREGISTREMENT DANS LA BDD ---
+                    clientDAO.save(client);
                     return new PageAccueilController().execute(request, response);
                 } else {
                     // Si les saisies ne sont pas valides, on affiche les corrections à effectuer
@@ -79,38 +86,47 @@ public class ModificationClientController implements ICommand {
             } catch (NumberFormatException e) {
                 request.setAttribute("validationClient", "Le chiffre d'affaires et le nombre d'employés doivent" +
                     " être saisis et doivent être des nombres entiers et positifs");
+            } catch (DAOException daoe) {
+                LOGGER.severe(daoe.getMessage());
+                request.setAttribute("validationClient", daoe.getMessage());
             }
 
+            // Sinon si l'on a pas de commande spécifique, on charge les informations depuis la base de données
         } else {
+
             // Récupération du client dans la base de données
-            int identifiant = Integer.parseInt(request.getParameter("choixClient")) ;
-            Client client = chargerClient(identifiant);
+            int identifiant = Integer.parseInt(request.getParameter("choixClient"));
+            try {
+                Client client = clientDAO.findById(identifiant);
 
-            if (client == null) {
-                LOGGER.severe("Tentative de chargement d'un client inexistant "
-                    + ModificationClientController.class.getName());
-                return "WEB-INF/JSP/erreur.jsp";
-            }
+                if (client == null) {
+                    LOGGER.severe("Tentative de chargement d'un client inexistant - "
+                        + ModificationClientController.class.getName());
+                    return "WEB-INF/JSP/erreur.jsp";
+                }
 
-            // Si le client obtenu est valide on l'affiche dans les champs
-            String validation = validationClient(client);
-            if (validation.isEmpty()) {
-                request.setAttribute("identifiant", client.getIdentifiant());
-                request.setAttribute("raisonSociale", client.getRaisonSociale());
-                request.setAttribute("telephone", client.getTelephone());
-                request.setAttribute("mail", client.getMail());
-                request.setAttribute("commentaire", client.getCommentaire());
-                request.setAttribute("chiffreAffaires", client.getChiffreDAffaire());
-                request.setAttribute("nbEmployes", client.getNombreEmployes());
-                request.setAttribute("numRue", client.getAdresse().getNumeroRue());
-                request.setAttribute("nomRue", client.getAdresse().getNomRue());
-                request.setAttribute("codePostal", client.getAdresse().getCodePostal());
-                request.setAttribute("ville", client.getAdresse().getVille());
-            } else {
-                // Si les saisies ne sont pas valides, il y a incohérence dans la base de données
-                LOGGER.severe("Données de la base de données incohérentes - "
-                    + ModificationClientController.class.getName());
-                return "WEB-INF/JSP/erreur.jsp";
+                // Si le client obtenu est valide on l'affiche dans les champs
+                String validation = validationClient(client);
+                if (validation.isEmpty()) {
+                    request.setAttribute("identifiant", client.getIdentifiant());
+                    request.setAttribute("raisonSociale", client.getRaisonSociale());
+                    request.setAttribute("telephone", client.getTelephone());
+                    request.setAttribute("mail", client.getMail());
+                    request.setAttribute("commentaire", client.getCommentaire());
+                    request.setAttribute("chiffreAffaires", client.getChiffreDAffaire());
+                    request.setAttribute("nbEmployes", client.getNombreEmployes());
+                    request.setAttribute("numRue", client.getAdresse().getNumeroRue());
+                    request.setAttribute("nomRue", client.getAdresse().getNomRue());
+                    request.setAttribute("codePostal", client.getAdresse().getCodePostal());
+                    request.setAttribute("ville", client.getAdresse().getVille());
+                } else {
+                    // Si les saisies ne sont pas valides, il y a incohérence dans la base de données
+                    LOGGER.severe("Données de la base de données incohérentes - "
+                        + ModificationClientController.class.getName());
+                    return "WEB-INF/JSP/erreur.jsp";
+                }
+            } catch (DAOException daoe) {
+                LOGGER.severe(daoe.getMessage());
             }
         }
 
@@ -193,24 +209,4 @@ public class ModificationClientController implements ICommand {
         return msg.toString();
     }
 
-    /**
-     * Méthode chargeant un client depuis la base de données
-     * à partir de sa raison sociale
-     *
-     * @param id La raison sociale du client
-     * @return Client
-     */
-    private Client chargerClient(int id) {
-        Client client = null;
-
-        try {
-            AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
-            DAO<Client> clientDAO = factory.getClient();
-            client = clientDAO.findById(id);
-        } catch (DAOException daoe) {
-            LOGGER.severe(daoe.getMessage());
-        }
-
-        return client;
-    }
 }
