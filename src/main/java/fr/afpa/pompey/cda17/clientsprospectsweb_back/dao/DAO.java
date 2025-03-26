@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 /**
  * Interface pour les classes de DAO des classes métiers.
+ *
  * @param <T>
  */
 public interface DAO<T> {
 
     /**
      * Recherche un élément T selon son nom, libellé, raison sociale... dans une base de données.
+     *
      * @param nom Le nom à rechercher
      * @return T - Un élément correspondant, ou Null si aucun n'a été trouvé
      * @throws DAOException
@@ -17,7 +19,17 @@ public interface DAO<T> {
     public T find(String nom) throws DAOException;
 
     /**
+     * Recherche un élément T selon son identifiant dans une base de données.
+     *
+     * @param id L'identifiant à rechercher
+     * @return T - Un élément correspondant, ou Null si aucun n'a été trouvé
+     * @throws DAOException
+     */
+    public T findById(int id) throws DAOException;
+
+    /**
      * Renvoie tous les éléments T présents dans une base de données.
+     *
      * @return ArrayList de T - Liste des éléments récupérés, ou Null su aucun n'est trouvé
      * @throws DAOException
      */
@@ -25,6 +37,7 @@ public interface DAO<T> {
 
     /**
      * Enregistre l'élément T en paramètre dans une base de données.
+     *
      * @param obj l'élément T à enregistrer
      * @throws DAOException
      */
@@ -32,6 +45,7 @@ public interface DAO<T> {
 
     /**
      * Supprime l'élément T en paramètre dans une base de données.
+     *
      * @param obj l'élément T à supprimer
      * @throws DAOException
      */

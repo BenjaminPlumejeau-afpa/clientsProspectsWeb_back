@@ -87,6 +87,77 @@ public class ClientDAO implements DAO<Client> {
 
 
     /**
+     * Recherche dans la base de données et renvoie le client
+     * ayant l'identifiant passé en paramètre.
+     *
+     * @param id L'identifiant du client recherché
+     * @return Client - Le client recherché, ou Null si aucun n'est trouvé
+     * @throws DAOException
+     */
+    public Client findById(int id) throws DAOException {
+
+        Client client = null;
+
+        // préparation de l'instruction paramétrée
+        PreparedStatement prepStmt = null;
+        String requete = "SELECT c.idClient, c.raisonSociale, c.telephone, c.mail, c.chiffreDAffaires," +
+            " c.nombreEmployes, c.commentaire, a.idAdresse, a.numRue, a.nomRue, a.codePostal, a.ville "
+            + "FROM CLIENT c "
+            + "INNER JOIN ADRESSE a ON c.idAdresse = a.idAdresse  "
+            + "WHERE c.idClient = ?";
+
+        try {
+            // Execution de la requête et récupération des résultats
+            prepStmt = FrontController.connection.prepareStatement(requete);
+            prepStmt.setInt(1, id);
+            ResultSet rs = prepStmt.executeQuery();
+            // Si la requête renvoie un résultat, on instancie un client à renvoyer
+            if (rs.next()) {
+                client = new Client(
+                    rs.getInt("c.idClient"),
+                    rs.getString("c.raisonSociale"),
+                    rs.getString("c.telephone"),
+                    new Adresse(
+                        rs.getInt("a.idAdresse"),
+                        rs.getString("a.numRue"),
+                        rs.getString("a.nomRue"),
+                        rs.getString("a.codePostal"),
+                        rs.getString("a.ville")
+                    ),
+                    rs.getString("c.mail"),
+                    rs.getString("c.commentaire"),
+                    rs.getLong("c.chiffreDAffaires"),
+                    rs.getInt("c.nombreEmployes")
+                );
+            }
+        } catch (SQLException sqle) {
+            switch (sqle.getErrorCode()) {
+                case 1054: {
+                    throw new DAOException("Erreur dans les instructions SQL\n" +
+                        "Erreur " + sqle.getErrorCode(), sqle, 5);
+                }
+                default: {
+                    throw new DAOException("Erreur de connexion à la base de données\n" +
+                        "Erreur " + sqle.getErrorCode(), sqle, 5);
+                }
+            }
+        } finally {
+            // Tentative de fermeture du statement
+            if (prepStmt != null) {
+                try {
+                    prepStmt.close();
+                } catch (SQLException sqle) {
+                    throw new DAOException("Erreur de connexion à la base de données\n" +
+                        "Erreur " + sqle.getErrorCode(), sqle, 5);
+                }
+            }
+        }
+
+        return client;
+    }
+
+
+    /**
      * Renvoie l'ensemble de tous les clients enregistrés
      * dans la base de données.
      *
