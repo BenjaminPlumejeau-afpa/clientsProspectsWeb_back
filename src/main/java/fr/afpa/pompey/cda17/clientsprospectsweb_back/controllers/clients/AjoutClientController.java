@@ -2,6 +2,10 @@ package fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.AbstractDAOFactory;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAO;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.TypeDB;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Adresse;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,11 +16,14 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Controller de la page de création d'un client.
  */
 public class AjoutClientController implements ICommand {
+
+    private final Logger LOGGER = Logger.getLogger(AjoutClientController.class.getName());
 
     @Override
     public String execute(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -37,92 +44,33 @@ public class AjoutClientController implements ICommand {
             request.setAttribute("codePostal", request.getParameter("codePostal"));
             request.setAttribute("ville", request.getParameter("ville"));
 
+            // Instanciation de la DAO
+            AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
+            DAO<Client> clientDAO = factory.getClient();
+
             try {
                 // Instanciation d'un client après réception du formulaire
                 Client client = new Client(
-                    request.getParameter("raisonSociale"),
-                    request.getParameter("telephone"),
+                    request.getParameter("raisonSociale").trim(),
+                    request.getParameter("telephone").trim(),
                     new Adresse(
-                        request.getParameter("numRue"),
-                        request.getParameter("nomRue"),
-                        request.getParameter("codePostal"),
-                        request.getParameter("ville")
+                        request.getParameter("numRue").trim(),
+                        request.getParameter("nomRue").trim(),
+                        request.getParameter("codePostal").trim(),
+                        request.getParameter("ville").trim()
                     ),
-                    request.getParameter("mail"),
-                    request.getParameter("commentaire"),
-                    Integer.parseInt(request.getParameter("chiffreAffaires")),
-                    Integer.parseInt(request.getParameter("nbEmployes"))
+                    request.getParameter("mail").trim(),
+                    request.getParameter("commentaire").trim(),
+                    Integer.parseInt(request.getParameter("chiffreAffaires").trim()),
+                    Integer.parseInt(request.getParameter("nbEmployes").trim())
                 );
 
                 // vérification des données saisies
-
-                // Instanciation du validator
-                ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-                Validator validator = factory.getValidator();
-
-                // Validation du client
-                Set<ConstraintViolation<Client>> violations = validator.validate(client);
-
-                // Construction du message
-                StringBuilder msg = new StringBuilder();
-                for (ConstraintViolation<Client> violation : violations) {
-                    switch (violation.getPropertyPath().toString()) {
-                        case "raisonSociale": {
-                            msg.append("- La raison sociale ").append(violation.getMessage());
-                            break;
-                        }
-                        case "telephone": {
-                            msg.append("- Le numéro de téléphone saisi est invalide");
-                            break;
-                        }
-                        case "mail": {
-                            msg.append("- Le format de l'adresse mail est invalide");
-                            break;
-                        }
-                        case "chiffreDAffaire": {
-                            msg.append("- Le chiffres d'affaires ").append(violation.getMessage());
-                            break;
-                        }
-                        case "nombreEmployes": {
-                            msg.append("- Le nombre d'employés ").append(violation.getMessage());
-                            break;
-                        }
-                        case "commentaire": {
-                            msg.append("- Le commentaire ").append(violation.getMessage());
-                            break;
-                        }
-                        case "adresse": {
-                            msg.append("- Veuillez renseigner une adresse valide");
-                            break;
-                        }
-                        case "adresse.numeroRue": {
-                            msg.append("- Le numéro de l'adresse ").append(violation.getMessage());
-                            break;
-                        }
-                        case "adresse.nomRue": {
-                            msg.append("- Le nom de rue ").append(violation.getMessage());
-                            break;
-                        }
-                        case "adresse.codePostal": {
-                            msg.append("- Le code postal doit être composé de 5 chiffres");
-                            break;
-                        }
-                        case "adresse.ville": {
-                            msg.append("- La ville ").append(violation.getMessage());
-                            break;
-                        }
-                        default: {
-                            msg.append(violation.toString());
-                        }
-                    }
-                    msg.append("<br>");
-                }
-                String validation = msg.toString();
-
+                String validation = validationClient(client);
                 if (validation.isEmpty()) {
                     // Si la saisie ne contient aucune erreur, elle est enregistrée dans la base de données et on
                     // affiche la page d'accueil
-//TODO                --- ENREGISTREMENT DANS LA BDD ---
+                    clientDAO.save(client);
                     return new PageAccueilController().execute(request, response);
                 } else {
                     // Si les saisies ne sont pas valides, on affiche les corrections à effectuer
@@ -132,9 +80,89 @@ public class AjoutClientController implements ICommand {
             } catch (NumberFormatException e) {
                 request.setAttribute("validationClient", "Le chiffre d'affaires et le nombre d'employés doivent" +
                     " être saisis et doivent être des nombres entiers et positifs");
+            } catch (DAOException daoe) {
+                LOGGER.severe(daoe.getMessage());
+                request.setAttribute("validationClient", daoe.getMessage());
             }
 
         }
         return "WEB-INF/JSP/clients/ajoutClient.jsp";
     }
+
+
+    /**
+     * Méthode vérifiant la validité des attribut d'une instance de client
+     * et renvoyant une chaine de caractères contenant toutes les erreurs.
+     * Si la chaine retournée est vide, le client est valide.
+     *
+     * @param client Le client à valider
+     * @return String - Les erreurs de validations
+     */
+    private String validationClient(Client client) {
+
+        // Instanciation du validator
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        // Validation du client
+        Set<ConstraintViolation<Client>> violations = validator.validate(client);
+
+        // Construction du message
+        StringBuilder msg = new StringBuilder();
+        for (ConstraintViolation<Client> violation : violations) {
+            switch (violation.getPropertyPath().toString()) {
+                case "raisonSociale": {
+                    msg.append("- La raison sociale ").append(violation.getMessage());
+                    break;
+                }
+                case "telephone": {
+                    msg.append("- Le numéro de téléphone saisi est invalide");
+                    break;
+                }
+                case "mail": {
+                    msg.append("- Le format de l'adresse mail est invalide");
+                    break;
+                }
+                case "chiffreDAffaire": {
+                    msg.append("- Le chiffres d'affaires ").append(violation.getMessage());
+                    break;
+                }
+                case "nombreEmployes": {
+                    msg.append("- Le nombre d'employés ").append(violation.getMessage());
+                    break;
+                }
+                case "commentaire": {
+                    msg.append("- Le commentaire ").append(violation.getMessage());
+                    break;
+                }
+                case "adresse": {
+                    msg.append("- Veuillez renseigner une adresse valide");
+                    break;
+                }
+                case "adresse.numeroRue": {
+                    msg.append("- Le numéro de l'adresse ").append(violation.getMessage());
+                    break;
+                }
+                case "adresse.nomRue": {
+                    msg.append("- Le nom de rue ").append(violation.getMessage());
+                    break;
+                }
+                case "adresse.codePostal": {
+                    msg.append("- Le code postal doit être composé de 5 chiffres");
+                    break;
+                }
+                case "adresse.ville": {
+                    msg.append("- La ville ").append(violation.getMessage());
+                    break;
+                }
+                default: {
+                    msg.append(violation.toString());
+                }
+            }
+            msg.append("<br>");
+        }
+
+        return msg.toString();
+    }
+
 }
