@@ -3,17 +3,18 @@
 
 <!doctype html>
 <html lang="fr">
-<head><%@include file="/WEB-INF/JSP/components/commonHead.jsp"%>
+<head>
+  <%@include file="/WEB-INF/JSP/components/commonHead.jsp" %>
   <title>Modifier client</title>
 </head>
 
 <body>
 
-<%@include file="/WEB-INF/JSP/components/header.jsp"%>
+<%@include file="/WEB-INF/JSP/components/header.jsp" %>
 
 <main>
   <article>
-    <form action="#" method="post">
+    <form action="?cmd=submitModifierClient" method="post">
       <h2>Modifier un client</h2>
 
       <div class="row">
@@ -27,38 +28,38 @@
 
               <div class="mb-3">
                 <label for="inputId" class="form-label">Identifiant</label>
-                <input type="text" class="form-control" id="inputId" name="identifiant"
-                       value="1" readonly>
+                <input type="text" class="form-control" value="${identifiant}"
+                       id="inputId" name="identifiant" readonly>
               </div>
 
               <div class="mb-3">
                 <label for="inputRaisonSociale" class="form-label">Raison sociale</label>
-                <input type="text" class="form-control" id="inputRaisonSociale" name="raisonSociale"
-                       value="Google" required>
+                <input type="text" class="form-control" value="${raisonSociale}"
+                       id="inputRaisonSociale" name="raisonSociale">
               </div>
 
               <div class="mb-3">
                 <label for="inputTel" class="form-label">Téléphone</label>
-                <input type="tel" class="form-control" id="inputTel" name="telephone"
-                       value="0102030405" required>
+                <input type="tel" class="form-control" value="${telephone}"
+                       id="inputTel" name="telephone">
               </div>
 
               <div class="mb-3">
                 <label for="inputMail" class="form-label">Adresse mail</label>
-                <input type="email" class="form-control" id="inputMail" name="mail"
-                       value="google@google.com" required>
+                <input type="email" class="form-control" value="${mail}"
+                       id="inputMail" name="mail">
               </div>
 
               <div class="mb-3">
                 <label for="inputCA" class="form-label">Chiffre d'affaires</label>
-                <input type="number" class="form-control" min="201" id="inputCA" name="chiffreAffaires"
-                       value="1700000" required>
+                <input type="number" class="form-control" value="${chiffreAffaires}"
+                       id="inputCA" name="chiffreAffaires">
               </div>
 
               <div class="mb-3">
                 <label for="inputNbEmployes" class="form-label">Nombre d'employés</label>
-                <input type="number" class="form-control" min="1" id="inputNbEmployes" name="nbEmployes"
-                       value="2357" required>
+                <input type="number" class="form-control" value="${nbEmployes}"
+                       id="inputNbEmployes" name="nbEmployes">
               </div>
 
             </div>
@@ -72,26 +73,27 @@
               <h3 class="card-title">Adresse</h3>
               <div class="mb-3">
                 <label for="inputNumRue" class="form-label">Numéro</label>
-                <input type="text" class="form-control" id="inputNumRue" name="numRue"
-                       value="17" required>
+                <input type="text" class="form-control" value="${numRue}"
+                       id="inputNumRue" name="numRue">
               </div>
 
               <div class="mb-3">
                 <label for="inputNomRue" class="form-label">Rue</label>
-                <input type="text" class="form-control" id="inputNomRue" name="nomRue"
-                       value="rue des Rose" required>
+                <input type="text" class="form-control" value="${nomRue}"
+                       id="inputNomRue" name="nomRue">
               </div>
 
               <div class="mb-3">
                 <label for="inputCP" class="form-label">Code Postal</label>
-                <input type="text" class="form-control" pattern="[0-9]{5}" id="inputCP" name="codePostal"
-                       value="75000" required>
+                <input type="text" class="form-control" pattern="[0-9]{5}"
+                       value="${codePostal}"
+                       id="inputCP" name="codePostal">
               </div>
 
               <div class="mb-3">
                 <label for="inputVille" class="form-label">Ville</label>
-                <input type="text" class="form-control" id="inputVille" name="ville"
-                       value="Paris" required>
+                <input type="text" class="form-control" value="${ville}"
+                       id="inputVille" name="ville">
               </div>
 
             </div>
@@ -108,7 +110,7 @@
 
                 <div class="m-4">
 								<textarea class="form-control" rows="4" placeholder="Commentaire facultatif"
-                          id="areaComment" name="commentaire"></textarea>
+                          id="areaComment" name="commentaire">${commentaire}</textarea>
                 </div>
 
               </div>
@@ -126,7 +128,7 @@
   </article>
 </main>
 
-<%@include file="/WEB-INF/JSP/components/footer.jsp"%>
+<%@include file="/WEB-INF/JSP/components/footer.jsp" %>
 
 <%--<script src="/assets/js/clients/modificationClient.js"></script>--%>
 
