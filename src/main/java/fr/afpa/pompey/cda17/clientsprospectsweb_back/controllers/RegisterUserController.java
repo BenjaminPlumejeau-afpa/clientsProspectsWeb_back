@@ -23,7 +23,6 @@ public class RegisterUserController implements ICommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//        TODO : Création de l'User admin, cryptage du mot de passe
         // Informations de l'utilisateur
         String username = "admin";
         String pwd = "admin";
@@ -40,7 +39,7 @@ public class RegisterUserController implements ICommand {
                 // Hash matches password
                 User utilisateur = new User(username, hash);
 
-//        TODO : Enregistrement dans la base de données
+                // Enregistrement dans la base de données
                 AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
                 DAO<User> userDAO = factory.getUser();
 
