@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda17.clientsprospectsweb_back.dao;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.User;
 
 /**
  * Abstract Factory gérant l'instanciation des Factory de DAO.
@@ -9,6 +10,7 @@ public abstract class AbstractDAOFactory {
 
     /**
      * Instancie et renvoie un objet de la classe de DAO pour la classe Client.
+     *
      * @return L'objet instancié
      */
     public abstract DAO<Client> getClient();
@@ -24,6 +26,14 @@ public abstract class AbstractDAOFactory {
 //     * @return L'objet instancié
 //     */
 //    public abstract DAO<Contrat> getContrat();
+
+    /**
+     * Instancie et renvoie un objet de la classe de DAO pour la classe User.
+     *
+     * @return L'objet instancié
+     */
+    public abstract DAO<User> getUser();
+
 
     /**
      * Renvoie une nouvelle instance de la Factory de DAO spécifique à la base de données en paramètre.
