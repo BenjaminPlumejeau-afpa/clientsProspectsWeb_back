@@ -27,8 +27,6 @@ public class AffichageClientController implements ICommand {
     public String execute(final HttpServletRequest request, final HttpServletResponse response)
         throws Exception {
 
-//        TODO : Chargement depuis la BDD
-
         // Instanciation de la DAO
         AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
         DAO<Client> clientDAO = factory.getClient();
@@ -73,7 +71,7 @@ public class AffichageClientController implements ICommand {
 
 
     /**
-     * Méthode vérifiant la validité des attribut d'une instance de client
+     * Méthode vérifiant la validité des attributs d'une instance de client
      * et renvoyant une chaine de caractères contenant toutes les erreurs.
      * Si la chaine retournée est vide, le client est valide.
      *

@@ -104,7 +104,7 @@
 
               <div class="m-4">
 								<textarea class="form-control" rows="4" placeholder="Aucun commentaire" id="areaComment"
-                          readonly></textarea>
+                          readonly>${commentaire}</textarea>
               </div>
 
             </div>
