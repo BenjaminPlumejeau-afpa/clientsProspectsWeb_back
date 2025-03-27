@@ -30,11 +30,10 @@
                 <select class="form-select" aria-label="Choix du client"
                         id="selectClient" name="choixClient" required>
                   <option value="" disabled selected>Choisir un client...</option>
-                  <option value="1">Google</option>
-                  <option value="2">Apple</option>
-                  <option value="3">Facebook</option>
-                  <option value="6">Amazon</option>
-                  <option value="7">Microsoft</option>
+                  <c:forEach var="client" begin="0" items="${listeClients}">
+                    <option value="${client.getIdentifiant()}">${client.getRaisonSociale()}</option>
+                  </c:forEach>
+
                 </select>
 
               </div>

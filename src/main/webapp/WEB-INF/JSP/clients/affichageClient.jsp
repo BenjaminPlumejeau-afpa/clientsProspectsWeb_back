@@ -4,7 +4,7 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <%@include file="/WEB-INF/JSP/components/commonHead.jsp"%>
+  <%@include file="/WEB-INF/JSP/components/commonHead.jsp" %>
   <title>Afficher client</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -13,7 +13,7 @@
 
 <body>
 
-<%@include file="/WEB-INF/JSP/components/header.jsp"%>
+<%@include file="/WEB-INF/JSP/components/header.jsp" %>
 
 <main>
   <article>
@@ -30,32 +30,38 @@
 
             <div class="mb-3">
               <label for="inputId" class="form-label">Identifiant</label>
-              <input type="text" class="form-control" id="inputId" value="1" readonly>
+              <input type="text" class="form-control" value="${identifiant}"
+                     id="inputId" name="identifiant" readonly>
             </div>
 
             <div class="mb-3">
               <label for="inputRaisonSociale" class="form-label">Raison sociale</label>
-              <input type="text" class="form-control" id="inputRaisonSociale" value="Google" readonly>
+              <input type="text" class="form-control" value="${raisonSociale}"
+                     id="inputRaisonSociale" name="raisonSociale" readonly>
             </div>
 
             <div class="mb-3">
               <label for="inputTel" class="form-label">Téléphone</label>
-              <input type="tel" class="form-control" id="inputTel" value="0102030405" readonly>
+              <input type="tel" class="form-control" value="${telephone}"
+                     id="inputTel" name="telephone" readonly>
             </div>
 
             <div class="mb-3">
               <label for="inputMail" class="form-label">Adresse mail</label>
-              <input type="email" class="form-control" id="inputMail" value="google@google.com" readonly>
+              <input type="email" class="form-control" value="${mail}"
+                     id="inputMail" name="mail" readonly>
             </div>
 
             <div class="mb-3">
               <label for="inputCA" class="form-label">Chiffre d'affaires</label>
-              <input type="number" class="form-control" min="201" id="inputCA" value="1700000" readonly>
+              <input type="number" class="form-control" value="${chiffreAffaires}"
+                     id="inputCA" name="chiffreAffaires" readonly>
             </div>
 
             <div class="mb-3">
               <label for="inputNbEmployes" class="form-label">Nombre d'employés</label>
-              <input type="number" class="form-control" min="1" id="inputNbEmployes" value="2357" readonly>
+              <input type="number" class="form-control" value="${nbEmployes}"
+                     id="inputNbEmployes" name="nbEmployes" readonly>
             </div>
 
           </div>
@@ -68,7 +74,10 @@
 
             <h3 class="card-title">Adresse</h3>
             <div class="mb-3">
-              <p id="adresse">56 Sq. Eugène Herzog, 54390 Frouard</p>
+              <p id="adresse">
+                <span id="numRue">${numRue}</span> <span id="nomRue">${nomRue}</span>, <span
+                id="codePostal">${codePostal}</span> <span id="ville">${ville}</span>
+              </p>
             </div>
 
             <!-- Carte de géolocalisation -->
@@ -95,7 +104,7 @@
 
               <div class="m-4">
 								<textarea class="form-control" rows="4" placeholder="Aucun commentaire" id="areaComment"
-                          readonly></textarea>
+                          readonly>${commentaire}</textarea>
               </div>
 
             </div>
@@ -114,12 +123,13 @@
   </article>
 </main>
 
-<%@include file="/WEB-INF/JSP/components/footer.jsp"%>
+<%@include file="/WEB-INF/JSP/components/footer.jsp" %>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
-<script type="module" src="assets/js/client/affichageClient.js"></script>
+
+<%--<script type="module" src="/assets/js/clients/affichageClient.js"></script>--%>
 </body>
 
 </html>

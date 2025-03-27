@@ -17,4 +17,11 @@
         <location>/WEB-INF/JSP/erreur.jsp</location>
     </error-page>
 
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <include-prelude>/WEB-INF/JSP/components/taglibs.jsp</include-prelude>
+        </jsp-property-group>
+    </jsp-config>
+
 </web-app>
