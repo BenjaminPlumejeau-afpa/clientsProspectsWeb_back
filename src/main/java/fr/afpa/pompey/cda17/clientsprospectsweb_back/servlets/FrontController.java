@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.RegisterUserController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.*;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.connexion.ConnexionController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.contact.ContactController;
@@ -53,6 +54,10 @@ public class FrontController extends HttpServlet {
         commands.put("submitAjouterClient", new AjoutClientController());
         commands.put("submitModifierClient", new ModificationClientController());
         commands.put("sbmitSupprimerClient", new SuppressionClientController());
+
+        // Création de l'utilisateur admin au lancement de la page - à commenter
+//        commands.put(null, new RegisterUserController());
+
 
         // Ouverture de la connexion à la base de données
         try {
