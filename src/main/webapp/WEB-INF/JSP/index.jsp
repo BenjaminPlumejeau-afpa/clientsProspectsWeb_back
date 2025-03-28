@@ -1,5 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@include file="/WEB-INF/JSP/components/taglibs.jsp" %>
 
 <!doctype html>
 <html lang="fr">

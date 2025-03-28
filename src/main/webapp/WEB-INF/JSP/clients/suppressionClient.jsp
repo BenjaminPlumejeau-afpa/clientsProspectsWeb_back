@@ -1,5 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@include file="/WEB-INF/JSP/components/taglibs.jsp" %>
 
 <!doctype html>
 <html lang="fr">
@@ -113,7 +112,7 @@
 
                 <div class="m-4">
 								<textarea class="form-control" rows="4" placeholder="Commentaire facultatif"
-                          id="areaComment" name="commentaire" readonly>${commentaire}</textarea>
+                          id="areaComment" name="commentaire" readonly><c:out value="${commentaire}"/></textarea>
                 </div>
 
               </div>

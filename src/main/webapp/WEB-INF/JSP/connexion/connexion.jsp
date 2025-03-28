@@ -1,5 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@include file="/WEB-INF/JSP/components/taglibs.jsp" %>
 
 <!doctype html>
 <html lang="fr">
@@ -16,7 +15,7 @@
   <article>
     <form action="?cmd=submitConnecter" method="post">
 
-      <input type="hidden" name="csrfToken" value="${token}"/>">
+      <input type="hidden" name="csrfToken" value="<c:out value="${token}"/>">
 
       <h2>Connexion</h2>
 
