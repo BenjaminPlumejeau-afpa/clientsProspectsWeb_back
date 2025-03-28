@@ -28,7 +28,16 @@
 
       <div class="row">
         <div class="col mt-md-5 py-3">
-          <a class="btn btn-primary btn-lg" href="?cmd=connecter">Se connecter</a>
+
+          <c:choose>
+            <c:when test="${sessionScope.utilisateur == null}">
+              <a class="btn btn-primary btn-lg" href="?cmd=connecter">Se connecter</a>
+            </c:when>
+            <c:otherwise>
+              <p>Connecté en tant que : ${sessionScope.utilisateur}</p>
+            </c:otherwise>
+          </c:choose>
+
         </div>
       </div>
 

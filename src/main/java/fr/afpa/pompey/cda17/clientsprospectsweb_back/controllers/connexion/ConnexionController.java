@@ -14,6 +14,7 @@ import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -69,9 +70,9 @@ public class ConnexionController implements ICommand {
                             // Verify password
                             if (argon2.verify(dbUser.getPwd(), password)) {
                                 // Hash matches password
-//                                  TODO : Connexion -> Session etc
-                                request.setAttribute("validation", "Connexion réussie !");
-//                                return new PageAccueilController().execute(request, response);
+                                HttpSession session = request.getSession();
+                                session.setAttribute("utilisateur", dbUser.getName());
+                                return new PageAccueilController().execute(request, response);
 
                             } else {
                                 // Hash doesn't match password

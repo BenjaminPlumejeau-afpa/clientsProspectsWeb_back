@@ -12,6 +12,7 @@ import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilCont
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.RegisterUserController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.*;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.connexion.ConnexionController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.connexion.DeconnexionController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.contact.ContactController;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
@@ -44,8 +45,9 @@ public class FrontController extends HttpServlet {
         commands.put(null, new PageAccueilController());
         commands.put("accueil", new PageAccueilController());
         commands.put("contacter", new ContactController());
-        commands.put("connecter", new ConnexionController());;
+        commands.put("connecter", new ConnexionController());
         commands.put("submitConnecter", new ConnexionController());
+        commands.put("deconnecter", new DeconnexionController());
         commands.put("listerClient", new ListeClientController());
         commands.put("choisirClient", new SelectionClientController());
         commands.put("afficherClient", new AffichageClientController());
