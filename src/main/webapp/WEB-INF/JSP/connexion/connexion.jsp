@@ -1,5 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@include file="/WEB-INF/JSP/components/taglibs.jsp" %>
 
 <!doctype html>
 <html lang="fr">
@@ -14,8 +13,18 @@
 
 <main>
   <article>
-    <form action="#" method="post">
+    <form action="?cmd=submitConnecter" method="post">
+
+      <input type="hidden" name="csrfToken" value="<c:out value="${token}"/>">
+
       <h2>Connexion</h2>
+
+      <%-- Affichage des erreurs de saisie --%>
+      <c:if test="${!empty validation}">
+        <div class="alert alert-danger mt-1" role="alert">
+            ${validation}
+        </div>
+      </c:if>
 
       <div class="row">
         <div class="col-lg-4"></div>
@@ -25,7 +34,7 @@
 
               <div class="m-2">
                 <label for="inputId" class="form-label">Identifiant</label>
-                <input type="text" class="form-control" id="inputId" name="idConnexion" required>
+                <input type="text" class="form-control" id="inputId" name="utilisateur" required>
               </div>
 
               <div class="m-2">

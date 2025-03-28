@@ -9,8 +9,10 @@ import java.util.logging.Logger;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.PageAccueilController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.RegisterUserController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients.*;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.connexion.ConnexionController;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.connexion.DeconnexionController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.contact.ContactController;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
@@ -31,7 +33,11 @@ public class FrontController extends HttpServlet {
 
     @Resource(name = "jdbc/mysql")
     private static DataSource dataSource;
-    public static Connection connection;
+    private static Connection connection;
+
+    public static Connection getConnection() {
+        return connection;
+    }
 
 
     /**
@@ -44,15 +50,21 @@ public class FrontController extends HttpServlet {
         commands.put("accueil", new PageAccueilController());
         commands.put("contacter", new ContactController());
         commands.put("connecter", new ConnexionController());
+        commands.put("submitConnecter", new ConnexionController());
+        commands.put("deconnecter", new DeconnexionController());
         commands.put("listerClient", new ListeClientController());
         commands.put("choisirClient", new SelectionClientController());
         commands.put("afficherClient", new AffichageClientController());
         commands.put("ajouterClient", new AjoutClientController());
-        commands.put("modifierClient", new ModificationClientController());
-        commands.put("supprimerClient", new SuppressionClientController());
         commands.put("submitAjouterClient", new AjoutClientController());
+        commands.put("modifierClient", new ModificationClientController());
         commands.put("submitModifierClient", new ModificationClientController());
+        commands.put("supprimerClient", new SuppressionClientController());
         commands.put("sbmitSupprimerClient", new SuppressionClientController());
+
+        // Création de l'utilisateur admin au lancement de la page - à commenter
+//        commands.put(null, new RegisterUserController());
+
 
         // Ouverture de la connexion à la base de données
         try {
