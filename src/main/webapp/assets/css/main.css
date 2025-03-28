@@ -1,0 +1,181 @@
+:root {
+    /* Charte graphique */
+    --mainColor: rgb(20, 60, 70);
+    --secondaryColor: rgb(255, 250, 245);
+    --textDark: rgb(25, 20, 20);
+    --textLight: rgb(255, 250, 240);
+    --hoverColor: rgb(50, 90, 110);
+    --cardBackgound: rgb(250, 245, 240);
+    --buttonFocusColor: rgb(0, 120, 120);
+    --validColor: rgb(0, 128, 128);
+    --invalidColor: rgb(140, 0, 0);
+}
+
+html,
+body {
+    height: 100vh;
+    margin: 0;
+    font-size: 18px;
+    font-family: "Segoe UI", sans-serif;
+    background: var(--secondaryColor);
+    color: var(--textDark);
+}
+
+
+/*	Header et barre de navigation   */
+header {
+    background: var(--cardBackgound);
+}
+
+h1 {
+    color: var(--mainColor);
+    font-family: "Britannic Bold", "Segue UI Black", "Segoe UI", sans-serif;
+}
+
+.navbar {
+    background: var(--cardBackgound);
+}
+
+#navbarSupportedContent {
+    background: linear-gradient(var(--cardBackgound) 98%, var(--hoverColor));
+}
+
+.navbar .nav-link:hover {
+    background: var(--hoverColor);
+    color: var(--textLight);
+}
+
+.navbar .dropdown-item:hover {
+    background: var(--hoverColor);
+    color: var(--textLight);
+}
+
+.navbar .connexion {
+    justify-self: right;
+}
+
+.currentPage {
+    font-weight: bold;
+}
+
+
+/*	Mise en page   */
+article {
+    padding: 1rem;
+}
+
+h2 {
+    font-weight: 600;
+    color: var(--mainColor);
+    margin: 1rem 0 1rem 2rem;
+}
+
+.card {
+    background: var(--cardBackgound);
+    box-shadow: 1px 1px 1px;
+}
+
+
+/*	Boutons   */
+.btn {
+    --bs-btn-hover-bg: var(--buttonFocusColor);
+    --bs-btn-active-bg: var(--buttonFocusColor);
+    --bs-btn-hover-color: white;
+}
+
+.btn-primary {
+    background: var(--mainColor);
+    color: var(--textLight);
+}
+
+/*	Tableaux   */
+table {
+    font-size: 0.9rem;
+}
+
+thead {
+    --bs-table-bg: var(--mainColor);
+    --bs-table-color: var(--textLight);
+}
+
+
+/*	Formulaires   */
+.isValid {
+    border-color: var(--validColor);
+    box-shadow: 0 0 2px var(--validColor);
+}
+
+:user-invalid, .isInvalid {
+    border-color: var(--invalidColor);
+    box-shadow: 0 0 2px var(--invalidColor);
+}
+
+.form-check-input:checked {
+    background-color: var(--buttonFocusColor);
+    border-color: var(--mainColor);
+}
+
+input:read-only, textarea:read-only {
+    background-color: var(--cardBackgound);
+    border: 1px dotted var(--textDark);
+}
+
+::placeholder {
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+
+/*	Géolocalisation et Météo  */
+#map {
+    height: 350px;
+    background: var(--secondaryColor);
+}
+
+.meteo h4 {
+    color: var(--mainColor);
+}
+
+.meteo p {
+    margin: 0 0 0.2rem 0.5rem;
+    font-size: 0.9rem;
+}
+
+p.source {
+    margin: 0.4rem 0 0 0;
+    font-size: 0.7rem;
+}
+
+
+/*	Footer   */
+footer {
+    position: sticky;
+    top: 100%;
+    background: var(--mainColor);
+    color: var(--textLight);
+    font-size: 0.9rem;
+}
+
+footer a {
+    text-decoration: none;
+    color: var(--textLight);
+}
+
+footer a:hover {
+    color: var(--textLight);
+    text-shadow: 0 0 1px var(--cardBackgound);
+}
+
+
+/*	Placement du menu déroulant de connexion en mode desktop  */
+@media screen and (min-width: 992px) {
+    .menuConnexion {
+        position: absolute;
+        right: 0;
+        margin-right: 0.8rem;
+    }
+
+    .menuConnexion ul {
+        margin-left: -3rem;
+    }
+}
