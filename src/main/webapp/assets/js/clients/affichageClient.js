@@ -1,4 +1,4 @@
-import {getLocation} from "../utilitaire/geolocalisation.js";
+import {getLocation} from "../utilitaires/geolocalisation.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
