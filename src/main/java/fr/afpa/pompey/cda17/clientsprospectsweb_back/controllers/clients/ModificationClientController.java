@@ -7,6 +7,7 @@ import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAO;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.TypeDB;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.utilities.CSRF;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -43,6 +44,14 @@ public class ModificationClientController implements ICommand {
             // Si on reçoit un formulaire à traiter, on valide la saisie et on enregistre les changements
             // s'il n'y a pas d'erreur
             if (request.getParameter("cmd").equals("submitModifierClient")) {
+
+                // Vérification du token CSRF
+                if ((session.getAttribute("csrf") == null)
+                    ||
+                    (!session.getAttribute("csrf").equals(request.getParameter("csrfToken")))) {
+                    LOGGER.warning("Token CSRF non valide");
+                    return "WEB-INF/JSP/erreur.jsp";
+                }
 
                 // On valorise les attributs pour afficher les paramètres dans les champs
                 request.setAttribute("identifiant", request.getParameter("identifiant"));
@@ -101,6 +110,11 @@ public class ModificationClientController implements ICommand {
 
                 // Sinon si l'on a pas de commande spécifique, on charge les informations depuis la base de données
             } else {
+
+                // Création du token CSRF si pas de retour de formulaire
+                String token = CSRF.generateToken();
+                request.setAttribute("token", token);
+                session.setAttribute("csrf", token);
 
                 // Récupération du client dans la base de données
                 int identifiant = Integer.parseInt(request.getParameter("choixClient"));

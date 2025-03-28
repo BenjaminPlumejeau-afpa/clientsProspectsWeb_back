@@ -15,6 +15,9 @@
 <main>
   <article>
     <form action="?cmd=submitConnecter" method="post">
+
+      <input type="hidden" name="csrfToken" value="${token}">
+
       <h2>Connexion</h2>
 
       <%-- Affichage des erreurs de saisie --%>

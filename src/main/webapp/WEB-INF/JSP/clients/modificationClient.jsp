@@ -15,6 +15,9 @@
 <main>
   <article>
     <form action="?cmd=submitModifierClient" method="post">
+
+      <input type="hidden" name="csrfToken" value="${token}">
+
       <h2>Modifier un client</h2>
 
       <%-- Affichage des erreurs de saisie --%>

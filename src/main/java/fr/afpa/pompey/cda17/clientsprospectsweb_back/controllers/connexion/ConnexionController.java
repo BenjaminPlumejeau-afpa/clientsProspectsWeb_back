@@ -12,6 +12,7 @@ import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.TypeDB;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.User;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.utilities.CSRF;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -34,7 +35,17 @@ public class ConnexionController implements ICommand {
     public String execute(final HttpServletRequest request, final HttpServletResponse response)
         throws Exception {
 
+        HttpSession session = request.getSession();
+
         if (request.getParameter("cmd").equals("submitConnecter")) {
+
+            // Vérification du token CSRF
+            if ((session.getAttribute("csrf") == null)
+                ||
+                (!session.getAttribute("csrf").equals(request.getParameter("csrfToken")))) {
+                LOGGER.warning("Token CSRF non valide");
+                return "WEB-INF/JSP/erreur.jsp";
+            }
 
             // Valorisation des champs
             request.setAttribute("utilisateur", request.getParameter("utilisateur"));
@@ -70,7 +81,6 @@ public class ConnexionController implements ICommand {
                             // Verify password
                             if (argon2.verify(dbUser.getPwd(), password)) {
                                 // Hash matches password
-                                HttpSession session = request.getSession();
                                 session.setAttribute("utilisateur", dbUser.getName());
                                 return new PageAccueilController().execute(request, response);
 
@@ -95,6 +105,11 @@ public class ConnexionController implements ICommand {
                 return "WEB-INF/JSP/erreur.JSP";
             }
 
+        } else {
+            // Création du token CSRF si pas de retour de formulaire
+            String token = CSRF.generateToken();
+            request.setAttribute("token", token);
+            session.setAttribute("csrf", token);
         }
 
 

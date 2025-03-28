@@ -16,6 +16,9 @@
   <article>
 
     <form action="?cmd=submitAjouterClient" method="post">
+
+      <input type="hidden" name="csrfToken" value="${token}">
+
       <h2>Ajouter un client</h2>
 
       <%-- Affichage des erreurs de saisie --%>

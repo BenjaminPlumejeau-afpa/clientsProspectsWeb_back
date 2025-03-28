@@ -8,6 +8,7 @@ import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.TypeDB;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Adresse;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.utilities.CSRF;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +17,9 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -39,6 +43,14 @@ public class AjoutClientController implements ICommand {
             // Si on reçoit un formulaire à traiter, on valide la saisie et on enregistre les changements s'il n'y a
             // pas d'erreur
             if (request.getParameter("cmd").equals("submitAjouterClient")) {
+
+                // Vérification du token CSRF
+                if ((session.getAttribute("csrf") == null)
+                    ||
+                    (!session.getAttribute("csrf").equals(request.getParameter("csrfToken")))) {
+                    LOGGER.warning("Token CSRF non valide");
+                    return "WEB-INF/JSP/erreur.jsp";
+                }
 
                 // On valorise les attributs pour afficher les paramètres dans les champs
                 request.setAttribute("raisonSociale", request.getParameter("raisonSociale"));
@@ -92,7 +104,13 @@ public class AjoutClientController implements ICommand {
                     request.setAttribute("validationClient", daoe.getMessage());
                 }
 
+            } else {
+                // Création du token CSRF si pas de retour de formulaire
+                String token = CSRF.generateToken();
+                request.setAttribute("token", token);
+                session.setAttribute("csrf", token);
             }
+
             return "WEB-INF/JSP/clients/ajoutClient.jsp";
 
         }

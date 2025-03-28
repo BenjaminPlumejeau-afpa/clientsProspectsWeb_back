@@ -16,6 +16,9 @@
 <main>
   <article>
     <form action="?cmd=sbmitSupprimerClient" method="post">
+
+      <input type="hidden" name="csrfToken" value="${token}">
+
       <h2>Supprimer un client</h2>
 
       <div class="row">
