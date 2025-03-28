@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.clients;
 
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.ICommand;
+import fr.afpa.pompey.cda17.clientsprospectsweb_back.controllers.connexion.ConnexionController;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.AbstractDAOFactory;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAO;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.DAOException;
@@ -8,6 +9,7 @@ import fr.afpa.pompey.cda17.clientsprospectsweb_back.dao.TypeDB;
 import fr.afpa.pompey.cda17.clientsprospectsweb_back.models.Client;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -27,71 +29,80 @@ public class SuppressionClientController implements ICommand {
     public String execute(final HttpServletRequest request, final HttpServletResponse response)
         throws Exception {
 
-        // Instanciation de la DAO
-        AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
-        DAO<Client> clientDAO = factory.getClient();
-
-        // Si on reçoit un formulaire à traiter, on supprime le client de la base de données
-        if (request.getParameter("cmd").equals("sbmitSupprimerClient")) {
-
-            try {
-                // On charge le client depuis la base de données à partir de son identifiant
-                Client client = clientDAO.findById(Integer.parseInt(request.getParameter("identifiant")));
-
-                // Si le client est null, il n'existe pas et on renvoie une erreur
-                if (client == null) {
-                    LOGGER.severe("Tentative de chargement d'un client inexistant");
-                    return "WEB-INF/JSP/erreur.jsp";
-                }
-
-                // On supprime le client et on renvoie vers la page de sélection de client.
-                clientDAO.delete(client);
-                return new SelectionClientController().execute(request, response);
-
-            } catch (NumberFormatException | DAOException e) {
-                LOGGER.severe(e.getMessage());
-                return "WEB-INF/JSP/erreur.jsp";
-            }
-
-            // Sinon si l'on a pas de commande spécifique, on charge les informations depuis la base de données
+        // Si le visiteur n'est pas connecté, renvoit vers la page de connexion
+        HttpSession session = request.getSession();
+        if (session.getAttribute("utilisateur") == null) {
+            request.setAttribute("validation", "Connexion requise pour accéder à cette page");
+            return new ConnexionController().execute(request, response);
         } else {
 
-            // Récupération du client dans la base de données
-            int identifiant = Integer.parseInt(request.getParameter("choixClient"));
-            try {
-                Client client = clientDAO.findById(identifiant);
+            // Instanciation de la DAO
+            AbstractDAOFactory factory = AbstractDAOFactory.getDAOFactory(TypeDB.MYSQL);
+            DAO<Client> clientDAO = factory.getClient();
 
-                if (client == null) {
-                    LOGGER.severe("Tentative de chargement d'un client inexistant - "
-                        + ModificationClientController.class.getName());
+            // Si on reçoit un formulaire à traiter, on supprime le client de la base de données
+            if (request.getParameter("cmd").equals("sbmitSupprimerClient")) {
+
+                try {
+                    // On charge le client depuis la base de données à partir de son identifiant
+                    Client client = clientDAO.findById(Integer.parseInt(request.getParameter("identifiant")));
+
+                    // Si le client est null, il n'existe pas et on renvoie une erreur
+                    if (client == null) {
+                        LOGGER.severe("Tentative de chargement d'un client inexistant");
+                        return "WEB-INF/JSP/erreur.jsp";
+                    }
+
+                    // On supprime le client et on renvoie vers la page de sélection de client.
+                    clientDAO.delete(client);
+                    return new SelectionClientController().execute(request, response);
+
+                } catch (NumberFormatException | DAOException e) {
+                    LOGGER.severe(e.getMessage());
                     return "WEB-INF/JSP/erreur.jsp";
                 }
 
-                // Si le client obtenu est valide on l'affiche dans les champs
-                String validation = validationClient(client);
-                if (validation.isEmpty()) {
-                    request.setAttribute("identifiant", client.getIdentifiant());
-                    request.setAttribute("raisonSociale", client.getRaisonSociale());
-                    request.setAttribute("telephone", client.getTelephone());
-                    request.setAttribute("mail", client.getMail());
-                    request.setAttribute("commentaire", client.getCommentaire());
-                    request.setAttribute("chiffreAffaires", client.getChiffreDAffaire());
-                    request.setAttribute("nbEmployes", client.getNombreEmployes());
-                    request.setAttribute("numRue", client.getAdresse().getNumeroRue());
-                    request.setAttribute("nomRue", client.getAdresse().getNomRue());
-                    request.setAttribute("codePostal", client.getAdresse().getCodePostal());
-                    request.setAttribute("ville", client.getAdresse().getVille());
-                } else {
-                    // Si les saisies ne sont pas valides, il y a incohérence dans la base de données
-                    LOGGER.severe("Données de la base de données incohérentes - "
-                        + ModificationClientController.class.getName());
-                    return "WEB-INF/JSP/erreur.jsp";
+                // Sinon si l'on a pas de commande spécifique, on charge les informations depuis la base de données
+            } else {
+
+                // Récupération du client dans la base de données
+                int identifiant = Integer.parseInt(request.getParameter("choixClient"));
+                try {
+                    Client client = clientDAO.findById(identifiant);
+
+                    if (client == null) {
+                        LOGGER.severe("Tentative de chargement d'un client inexistant - "
+                            + ModificationClientController.class.getName());
+                        return "WEB-INF/JSP/erreur.jsp";
+                    }
+
+                    // Si le client obtenu est valide on l'affiche dans les champs
+                    String validation = validationClient(client);
+                    if (validation.isEmpty()) {
+                        request.setAttribute("identifiant", client.getIdentifiant());
+                        request.setAttribute("raisonSociale", client.getRaisonSociale());
+                        request.setAttribute("telephone", client.getTelephone());
+                        request.setAttribute("mail", client.getMail());
+                        request.setAttribute("commentaire", client.getCommentaire());
+                        request.setAttribute("chiffreAffaires", client.getChiffreDAffaire());
+                        request.setAttribute("nbEmployes", client.getNombreEmployes());
+                        request.setAttribute("numRue", client.getAdresse().getNumeroRue());
+                        request.setAttribute("nomRue", client.getAdresse().getNomRue());
+                        request.setAttribute("codePostal", client.getAdresse().getCodePostal());
+                        request.setAttribute("ville", client.getAdresse().getVille());
+                    } else {
+                        // Si les saisies ne sont pas valides, il y a incohérence dans la base de données
+                        LOGGER.severe("Données de la base de données incohérentes - "
+                            + ModificationClientController.class.getName());
+                        return "WEB-INF/JSP/erreur.jsp";
+                    }
+                } catch (DAOException daoe) {
+                    LOGGER.severe(daoe.getMessage());
                 }
-            } catch (DAOException daoe) {
-                LOGGER.severe(daoe.getMessage());
             }
+            return "WEB-INF/JSP/clients/suppressionClient.jsp";
         }
-        return "WEB-INF/JSP/clients/suppressionClient.jsp";
+
     }
 
 
