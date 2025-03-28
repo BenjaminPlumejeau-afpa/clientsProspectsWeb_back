@@ -28,9 +28,9 @@ public class UserDAO implements DAO<User> {
 
         // préparation de l'instruction paramétrée
         PreparedStatement prepStmt = null;
-        String requete = "SELECT identifiant, username, password"
+        String requete = "SELECT identifiant, username, password "
             + "FROM UTILISATEUR "
-            + "WHERE username = ?";
+            + "WHERE username = ? ";
 
         try {
             // Execution de la requête et récupération des résultats
