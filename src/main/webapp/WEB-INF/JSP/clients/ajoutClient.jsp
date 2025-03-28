@@ -112,9 +112,7 @@
 
                 <div class="m-4">
 								<textarea class="form-control" rows="4" placeholder="Commentaire facultatif"
-                          id="areaComment" name="commentaire">
-                  ${commentaire}
-                </textarea>
+                          id="areaComment" name="commentaire">${commentaire}</textarea>
                 </div>
 
               </div>

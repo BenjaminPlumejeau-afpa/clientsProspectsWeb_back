@@ -71,7 +71,7 @@ public class ConnexionController implements ICommand {
                                 // Hash matches password
 //                                  TODO : Connexion -> Session etc
                                 request.setAttribute("validation", "Connexion réussie !");
-                                return new PageAccueilController().execute(request, response);
+//                                return new PageAccueilController().execute(request, response);
 
                             } else {
                                 // Hash doesn't match password
