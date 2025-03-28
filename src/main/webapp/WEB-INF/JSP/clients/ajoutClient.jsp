@@ -14,10 +14,9 @@
 
 <main>
   <article>
-
     <form action="?cmd=submitAjouterClient" method="post">
 
-      <input type="hidden" name="csrfToken" value="${token}">
+      <input type="hidden" name="csrfToken" value="<c:out value="${token}"/>">
 
       <h2>Ajouter un client</h2>
 
@@ -39,31 +38,31 @@
 
               <div class="mb-3">
                 <label for="inputRaisonSociale" class="form-label">Raison sociale</label>
-                <input type="text" class="form-control" value="${raisonSociale}"
+                <input type="text" class="form-control" value="<c:out value="${raisonSociale}"/>"
                        id="inputRaisonSociale" name="raisonSociale">
               </div>
 
               <div class="mb-3">
                 <label for="inputTel" class="form-label">Téléphone</label>
-                <input type="tel" class="form-control" value="${telephone}"
+                <input type="tel" class="form-control" value="<c:out value="${telephone}"/>"
                        id="inputTel" name="telephone">
               </div>
 
               <div class="mb-3">
                 <label for="inputMail" class="form-label">Adresse mail</label>
-                <input type="email" class="form-control" value="${mail}"
+                <input type="email" class="form-control" value="<c:out value="${mail}"/>"
                        id="inputMail" name="mail">
               </div>
 
               <div class="mb-3">
                 <label for="inputCA" class="form-label">Chiffre d'affaires</label>
-                <input type="number" class="form-control" value="${chiffreAffaires}"
+                <input type="number" class="form-control" value="<c:out value="${chiffreAffaires}"/>"
                        id="inputCA" name="chiffreAffaires">
               </div>
 
               <div class="mb-3">
                 <label for="inputNbEmployes" class="form-label">Nombre d'employés</label>
-                <input type="number" class="form-control" value="${nbEmployes}"
+                <input type="number" class="form-control" value="<c:out value="${nbEmployes}"/>"
                        id="inputNbEmployes" name="nbEmployes">
               </div>
 
@@ -78,26 +77,26 @@
               <h3 class="card-title">Adresse</h3>
               <div class="mb-3">
                 <label for="inputNumRue" class="form-label">Numéro</label>
-                <input type="text" class="form-control" value="${numRue}"
+                <input type="text" class="form-control" value="<c:out value="${numRue}"/>"
                        id="inputNumRue" name="numRue">
               </div>
 
               <div class="mb-3">
                 <label for="inputNomRue" class="form-label">Rue</label>
-                <input type="text" class="form-control" value="${nomRue}"
+                <input type="text" class="form-control" value="<c:out value="${nomRue}"/>"
                        id="inputNomRue" name="nomRue">
               </div>
 
               <div class="mb-3">
                 <label for="inputCP" class="form-label">Code Postal</label>
                 <input type="text" class="form-control" pattern="[0-9]{5}"
-                       value="${codePostal}"
+                       value="<c:out value="${codePostal}"/>"
                        id="inputCP" name="codePostal">
               </div>
 
               <div class="mb-3">
                 <label for="inputVille" class="form-label">Ville</label>
-                <input type="text" class="form-control" value="${ville}"
+                <input type="text" class="form-control" value="<c:out value="${ville}"/>"
                        id="inputVille" name="ville">
               </div>
 
@@ -115,7 +114,7 @@
 
                 <div class="m-4">
 								<textarea class="form-control" rows="4" placeholder="Commentaire facultatif"
-                          id="areaComment" name="commentaire">${commentaire}</textarea>
+                          id="areaComment" name="commentaire"><c:out value="${commentaire}"/></textarea>
                 </div>
 
               </div>

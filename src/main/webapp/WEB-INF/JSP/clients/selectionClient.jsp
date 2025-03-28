@@ -31,7 +31,7 @@
                         id="selectClient" name="choixClient" required>
                   <option value="" disabled selected>Choisir un client...</option>
                   <c:forEach var="client" begin="0" items="${listeClients}">
-                    <option value="${client.getIdentifiant()}">${client.getRaisonSociale()}</option>
+                    <option value="<c:out value="${client.getIdentifiant()}"/>"><c:out value="${client.getRaisonSociale()}"/></option>
                   </c:forEach>
 
                 </select>
