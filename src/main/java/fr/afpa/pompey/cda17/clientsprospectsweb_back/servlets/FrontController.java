@@ -33,7 +33,11 @@ public class FrontController extends HttpServlet {
 
     @Resource(name = "jdbc/mysql")
     private static DataSource dataSource;
-    public static Connection connection;
+    private static Connection connection;
+
+    public static Connection getConnection() {
+        return connection;
+    }
 
 
     /**

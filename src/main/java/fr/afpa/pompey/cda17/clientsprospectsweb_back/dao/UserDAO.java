@@ -34,7 +34,7 @@ public class UserDAO implements DAO<User> {
 
         try {
             // Execution de la requête et récupération des résultats
-            prepStmt = FrontController.connection.prepareStatement(requete);
+            prepStmt = FrontController.getConnection().prepareStatement(requete);
             prepStmt.setString(1, username);
             ResultSet rs = prepStmt.executeQuery();
             // Si la requête renvoie un résultat, on instancie un utilisateur à renvoyer
@@ -122,8 +122,8 @@ public class UserDAO implements DAO<User> {
             try {
 
                 // Début de la "transaction"
-                FrontController.connection.setAutoCommit(false);
-                prepStmt = FrontController.connection.prepareStatement(requete);
+                FrontController.getConnection().setAutoCommit(false);
+                prepStmt = FrontController.getConnection().prepareStatement(requete);
 
                 // Insertion de l'adresse
                 prepStmt.setString(1, obj.getName());
@@ -133,7 +133,7 @@ public class UserDAO implements DAO<User> {
             } catch (SQLException sqle) {
                 // Si une exception est attrapée, on s'assure que la transaction est rollback
                 try {
-                    FrontController.connection.rollback();
+                    FrontController.getConnection().rollback();
                 } catch (SQLException transacte) {
                     throw new DAOException("Erreur d'exécution de la transaction", transacte, 5);
                 }
@@ -156,7 +156,7 @@ public class UserDAO implements DAO<User> {
                 // Dans tous les cas on réactive le fonctionnement normal des commit de la connection et on libère
                 // les PreparedStatement utilisés
                 try {
-                    FrontController.connection.setAutoCommit(true);
+                    FrontController.getConnection().setAutoCommit(true);
                     if (prepStmt != null) {
                         prepStmt.close();
                     }
@@ -177,8 +177,8 @@ public class UserDAO implements DAO<User> {
 
             try {
                 // Début de la "transaction"
-                FrontController.connection.setAutoCommit(false);
-                prepStmt = FrontController.connection.prepareStatement(requete);
+                FrontController.getConnection().setAutoCommit(false);
+                prepStmt = FrontController.getConnection().prepareStatement(requete);
 
                 // Modification de l'utilisateur
                 prepStmt.setString(1, obj.getName());
@@ -186,12 +186,12 @@ public class UserDAO implements DAO<User> {
                 prepStmt.setInt(3, obj.getIdentifiant());
                 prepStmt.executeUpdate();
 
-                FrontController.connection.commit();
+                FrontController.getConnection().commit();
 
             } catch (SQLException sqle) {
                 // Si une exception est attrapée, on s'assure que la transaction est rollback
                 try {
-                    FrontController.connection.rollback();
+                    FrontController.getConnection().rollback();
                 } catch (SQLException transacte) {
                     throw new DAOException("Erreur d'exécution de la transaction", transacte, 5);
                 }
@@ -214,7 +214,7 @@ public class UserDAO implements DAO<User> {
                 // Dans tous les cas on réactive le fonctionnement normal des commit de la connection et on libère
                 // les PreparedStatement utilisés
                 try {
-                    FrontController.connection.setAutoCommit(true);
+                    FrontController.getConnection().setAutoCommit(true);
                     if (prepStmt != null) {
                         prepStmt.close();
                     }

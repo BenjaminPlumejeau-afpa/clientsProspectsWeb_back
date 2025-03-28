@@ -37,7 +37,7 @@ public class ClientDAO implements DAO<Client> {
 
         try {
             // Execution de la requête et récupération des résultats
-            prepStmt = FrontController.connection.prepareStatement(requete);
+            prepStmt = FrontController.getConnection().prepareStatement(requete);
             prepStmt.setString(1, nom);
             ResultSet rs = prepStmt.executeQuery();
             // Si la requête renvoie un résultat, on instancie un client à renvoyer
@@ -108,7 +108,7 @@ public class ClientDAO implements DAO<Client> {
 
         try {
             // Execution de la requête et récupération des résultats
-            prepStmt = FrontController.connection.prepareStatement(requete);
+            prepStmt = FrontController.getConnection().prepareStatement(requete);
             prepStmt.setInt(1, id);
             ResultSet rs = prepStmt.executeQuery();
             // Si la requête renvoie un résultat, on instancie un client à renvoyer
@@ -179,7 +179,7 @@ public class ClientDAO implements DAO<Client> {
 
         try {
             // Execution de la requête et récupération du résultat
-            stmt = FrontController.connection.createStatement();
+            stmt = FrontController.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(requete);
 
             // Parcours du résultat et construction de la liste à retourner
@@ -266,10 +266,10 @@ public class ClientDAO implements DAO<Client> {
 //                }
 
                 // Début de la "transaction"
-                FrontController.connection.setAutoCommit(false);
-                stmtAdresse = FrontController.connection.prepareStatement(insertionAdresse,
+                FrontController.getConnection().setAutoCommit(false);
+                stmtAdresse = FrontController.getConnection().prepareStatement(insertionAdresse,
                     Statement.RETURN_GENERATED_KEYS);
-                stmtClient = FrontController.connection.prepareStatement(insertionClient);
+                stmtClient = FrontController.getConnection().prepareStatement(insertionClient);
 
                 // Insertion de l'adresse
                 stmtAdresse.setString(1, obj.getAdresse().getNumeroRue());
@@ -292,17 +292,17 @@ public class ClientDAO implements DAO<Client> {
                     stmtClient.execute();
 
                     // On commit la transaction si tout s'est bien déroulé
-                    FrontController.connection.commit();
+                    FrontController.getConnection().commit();
                 } else {
                     // Sinon on rollback en renvoyant une exception
-                    FrontController.connection.rollback();
+                    FrontController.getConnection().rollback();
                     throw new DAOException("Impossible d'insérer l'adresse ; opération annulée", 3);
                 }
 
             } catch (SQLException sqle) {
                 // Si une exception est attrapée, on s'assure que la transaction est rollback
                 try {
-                    FrontController.connection.rollback();
+                    FrontController.getConnection().rollback();
                 } catch (SQLException transacte) {
                     throw new DAOException("Erreur d'exécution de la transaction", transacte, 5);
                 }
@@ -325,7 +325,7 @@ public class ClientDAO implements DAO<Client> {
                 // Dans tous les cas on réactive le fonctionnement normal des commit de la connection et on libère
                 // les PreparedStatement utilisés
                 try {
-                    FrontController.connection.setAutoCommit(true);
+                    FrontController.getConnection().setAutoCommit(true);
                     if (stmtClient != null) {
                         stmtClient.close();
                     }
@@ -354,9 +354,9 @@ public class ClientDAO implements DAO<Client> {
 
             try {
                 // Début de la "transaction"
-                FrontController.connection.setAutoCommit(false);
-                stmtClient = FrontController.connection.prepareStatement(modifClient);
-                stmtAdresse = FrontController.connection.prepareStatement(modifAdresse);
+                FrontController.getConnection().setAutoCommit(false);
+                stmtClient = FrontController.getConnection().prepareStatement(modifClient);
+                stmtAdresse = FrontController.getConnection().prepareStatement(modifAdresse);
 
                 // Modification du client
                 stmtClient.setString(1, obj.getRaisonSociale());
@@ -376,12 +376,12 @@ public class ClientDAO implements DAO<Client> {
                 stmtAdresse.setInt(5, obj.getAdresse().getIdAdresse());
                 stmtAdresse.executeUpdate();
 
-                FrontController.connection.commit();
+                FrontController.getConnection().commit();
 
             } catch (SQLException sqle) {
                 // Si une exception est attrapée, on s'assure que la transaction est rollback
                 try {
-                    FrontController.connection.rollback();
+                    FrontController.getConnection().rollback();
                 } catch (SQLException transacte) {
                     throw new DAOException("Erreur d'exécution de la transaction", transacte, 5);
                 }
@@ -404,7 +404,7 @@ public class ClientDAO implements DAO<Client> {
                 // Dans tous les cas on réactive le fonctionnement normal des commit de la connection et on libère
                 // les PreparedStatement utilisés
                 try {
-                    FrontController.connection.setAutoCommit(true);
+                    FrontController.getConnection().setAutoCommit(true);
                     if (stmtClient != null) {
                         stmtClient.close();
                     }
@@ -436,20 +436,20 @@ public class ClientDAO implements DAO<Client> {
 
         try {
             // Début de la "transaction"
-            FrontController.connection.setAutoCommit(false);
-            stmtClient = FrontController.connection.prepareStatement(suppressionClient);
-            stmtAdresse = FrontController.connection.prepareStatement(suppressionAdresse);
+            FrontController.getConnection().setAutoCommit(false);
+            stmtClient = FrontController.getConnection().prepareStatement(suppressionClient);
+            stmtAdresse = FrontController.getConnection().prepareStatement(suppressionAdresse);
             stmtClient.setInt(1, obj.getIdentifiant());
             stmtAdresse.setInt(1, obj.getAdresse().getIdAdresse());
             stmtClient.executeUpdate();
             stmtAdresse.executeUpdate();
 
-            FrontController.connection.commit();
+            FrontController.getConnection().commit();
 
         } catch (SQLException sqle) {
             // Si une exception est attrapée, on s'assure que la transaction est rollback
             try {
-                FrontController.connection.rollback();
+                FrontController.getConnection().rollback();
             } catch (SQLException transacte) {
                 throw new DAOException("Erreur d'exécution de la transaction", transacte, 5);
             }
@@ -469,7 +469,7 @@ public class ClientDAO implements DAO<Client> {
             // Dans tous les cas on réactive le fonctionnement normal des commit de la connection et on libère
             // les PreparedStatement utilisés
             try {
-                FrontController.connection.setAutoCommit(true);
+                FrontController.getConnection().setAutoCommit(true);
                 if (stmtClient != null) {
                     stmtClient.close();
                 }
